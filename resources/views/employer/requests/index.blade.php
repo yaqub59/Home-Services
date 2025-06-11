@@ -34,9 +34,12 @@
                             <a data-bs-toggle="modal" href="#rating" class="text-danger"><i
                                     class="feather-heart"></i></a>
                         </div>
+                        @php
+                            $imagePath = public_path('images/avatar/' . $providers->image);
+                        @endphp
                         <div class="text-center mb-3">
                             <a href="{{ route('provider-details', $providers->id) }}">
-                                @if ($providers->image)
+                                @if ($providers->image && File::exists($imagePath))
                                     <img src="{{ asset('images/avatar/' . $providers->image) }}" alt="User Image"
                                         class="img-fluid rounded" style="height: 200px; object-fit: cover;">
                                 @else
@@ -47,7 +50,7 @@
                         </div>
                         <div class="flex-grow-1">
                             <h5 class="text-center">
-                                <a href="developer-details.html"
+                                <a href="{{ route('provider-details', $providers->id) }}"
                                     class="text-decoration-none text-dark">{{ $providers->name }}</a>
                             </h5>
                             <p class="text-muted text-center mb-1">Institutes</p>
@@ -72,7 +75,8 @@
                         <div class="mt-auto">
                             <a href="{{ route('request.create', $providers->id) }}"
                                 class="btn btn-outline-primary w-100 mb-2">Send Request</a>
-                            <a href="{{ route('provider-details', $providers->id) }}" class="btn btn-primary w-100">View
+                            <a href="{{ route('provider-details', $providers->id) }}"
+                                class="btn btn-primary w-100">View
                                 Profile</a>
                         </div>
                     </div>

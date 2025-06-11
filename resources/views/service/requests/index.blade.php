@@ -41,10 +41,10 @@
                                          <i class="fas fa-clock me-1"></i> Pending
                                      </a>
                                  @elseif ($request->status == 'accepted')
-                                     <a href="javascript:void(0)"
-                                         class="badge bg-primary text-light d-inline-flex align-items-center px-2 py-1 rounded-pill">
+                                     <span
+                                         class="badge bg-success text-light d-inline-flex align-items-center px-2 py-1 rounded-pill">
                                          <i class="fas fa-check-circle me-1"></i> Accepted
-                                     </a>
+                                     </span>
                                  @endif
                              </td>
 

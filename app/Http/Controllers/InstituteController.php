@@ -15,7 +15,9 @@ class InstituteController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $institute = Institute::select(['id', 'name']);
+            $institute = Institute::select(['id', 'name'])
+                ->orderBy('name', 'asc')
+                ->get();
             return DataTables::of($institute)
                 ->addColumn('action', function ($row) {
                     $editUrl = route('admin.institute.edit', $row->id);
@@ -111,7 +113,7 @@ class InstituteController extends Controller
      */
     public function destroy(string $id)
     {
-         try {
+        try {
             $institute = Institute::findOrFail($id);
             $institute->delete();
 

@@ -101,7 +101,9 @@ class AdminController extends Controller
     public function Users(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::select(['id', 'name', 'email', 'image', 'type', 'status', 'created_at']);
+            $users = User::select(['id', 'name', 'email', 'image', 'type', 'status', 'created_at'])
+            ->orderBy('name', 'asc')
+                ->get();
             return DataTables::of($users)
                 ->addColumn('image', function ($user) {
                     $path = 'images/admin/images';
@@ -141,10 +143,6 @@ class AdminController extends Controller
                             return '<span class="badge bg-secondary">Unknown</span>';
                     }
                 })
-
-
-
-
                 ->addColumn('status', function ($user) {
                     if ($user->id == auth()->id()) {
                         return '';

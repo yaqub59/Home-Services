@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+
 class LoginController extends Controller
 {
     /*
@@ -54,6 +55,12 @@ class LoginController extends Controller
         ]);
 
         if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+
+            if (auth()->user()->status == 0) {
+                auth()->logout(); // Logout the user if status is blocked
+                return redirect()->route('login')->with('error', 'Your account has been blocked. Please contact support.');
+            }
+
             if (auth()->user()->type == 'admin') {
                 return redirect()->route('admin.home')->with('success', 'Successfully logged in to the Admin Dashboard.');
             } else if (auth()->user()->type == 'service') {
