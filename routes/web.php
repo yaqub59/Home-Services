@@ -7,14 +7,12 @@ use App\Http\Controllers\ServiceProvider;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\RequestsController;
+Auth::routes();
 
-Route::post('/', function () {
-    return redirect()->route('login');
-});
 Route::get('/', function () {
     return redirect()->route('login');
 });
-Auth::routes();
+
 Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 });
