@@ -1,0 +1,164 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Requests;
+use App\Models\User;
+use App\Models\Reviews;
+use App\Models\Expertises;
+use Illuminate\Support\Facades\Log;
+
+class RequestsController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $query = $request->input('query');
+
+        $serviceProviders = User::where('type', 2)
+            ->when($query, function ($q) use ($query) {
+                $q->whereHas('expertises', function ($subQuery) use ($query) {
+                    $subQuery->where('tags', 'like', '%' . $query . '%');
+                });
+            })
+            ->with(['services', 'expertises', 'certificates'])
+            ->get();
+
+        $countproviders = $serviceProviders->count();
+
+        return view('employer.requests.index')
+            ->with('serviceProviders', $serviceProviders)
+            ->with('countproviders', $countproviders);
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create($id)
+    {
+        try {
+            $serviceProvider = User::findOrFail($id);
+            return view('employer.requests.create')
+                ->with('serviceProvider', $serviceProvider);
+        } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Handle the case where the service provider is not found
+            // You can redirect, show an error message, or log the error
+            return redirect()->back()->with('error', 'Service provider not found.');
+        } catch (\Exception $e) {
+
+            Log::error("Error in create method for ID {$id}: " . $e->getMessage());
+            return redirect()->back()->with('error', 'An unexpected error occurred. Please try again.');
+        }
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        try {
+            $request->validate([
+                'service_provider_id' => 'required|exists:users,id',
+                'details' => 'required|string',
+            ]);
+
+            Requests::create([
+                'employer_id' => auth()->id(),
+                'service_provider_id' => $request->service_provider_id,
+                'details' => $request->details,
+                'status' => 'pending',
+            ]);
+
+            return redirect()->route('reviews')->with('success', 'Request sent successfully!');
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+
+            Log::error("Error storing service request: " . $e->getMessage(), [
+                'user_id' => auth()->id(),
+                'request_data' => $request->all(),
+            ]);
+
+            // Redirect back with a general error message
+            return redirect()->back()->with('error', 'Failed to send request. Please try again.')->withInput();
+        };
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function Reviews()
+    {
+        $requests = Requests::with(['serviceProvider', 'review'])
+            ->where('employer_id', auth()->id())
+            ->latest()
+            ->get();
+        //dd($requests->pluck('review'));
+        return view('employer.requests.review')
+            ->with('requests', $requests);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function StoreReview($id)
+    {
+        // Check or show form to submit review
+        $request = Requests::findOrFail($id);
+        return view('employer.requests.store-review', compact('request'));
+    }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function SubmitReview(Request $request)
+    {
+        $request->validate([
+            'reviewee_id' => 'required|exists:users,id',
+            'request_id' => 'required|exists:requests,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|max:1000',
+        ]);
+        try {
+            Reviews::create([
+                'request_id' => $request->request_id,
+                'reviewee_id' => $request->reviewee_id,
+                'reviewer_id' => auth()->id(),
+                'rating' => $request->rating,
+                'comment' => $request->comment,
+            ]);
+            return redirect()->route('reviews')->with('success', 'Review submitted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Review submission failed: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'Something went wrong while submitting the review. Please try again.');
+        }
+    }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function ProviderDetails($id)
+    {
+        try {
+            $serviceProvider = User::with(['services', 'expertises', 'certificates'])->findOrFail($id);
+            return view('employer.requests.provider-details')
+                ->with('serviceProvider', $serviceProvider);
+        } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Handle the case where the service provider is not found
+            // You can redirect, show an error message, or log the error
+            return redirect()->back()->with('error', 'Service provider not found.');
+        } catch (\Exception $e) {
+
+            Log::error("Error in create method for ID {$id}: " . $e->getMessage());
+            return redirect()->back()->with('error', 'An unexpected error occurred. Please try again.');
+        }
+    }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    
+  
+}
