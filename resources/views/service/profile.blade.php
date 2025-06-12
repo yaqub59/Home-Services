@@ -105,20 +105,23 @@
                                                     <h4 class="pro-titles without-border mb-0">Services</h4>
                                                 </div>
                                                 <div class="pro-body">
-                                                    <div id="services-wrapper">
-                                                        @forelse(auth()->user()->services as $index => $service)
+                                                    <!-- ✅ Container to hold hidden deleted inputs -->
+                                                    <div id="deleted-inputs-container"> </div>
+                                                    <div id="services-wrapper"> @php $index = 0; @endphp
+                                                        @foreach (auth()->user()->services as $service)
                                                             <div
                                                                 class="form-row align-items-center skill-cont service-row mb-3">
-                                                                <input type="hidden"
-                                                                    name="services[{{ $index }}][id]"
-                                                                    value="{{ $service->id ?? '' }}">
                                                                 <div class="input-block col-lg-4">
                                                                     <label class="form-label">Service Name</label>
+                                                                    <input type="hidden"
+                                                                        name="services[{{ $index }}][id]"
+                                                                        value="{{ $service->id }}">
                                                                     <input type="text"
                                                                         name="services[{{ $index }}][name]"
                                                                         value="{{ $service->name }}"
                                                                         class="form-control" placeholder="Enter name">
                                                                 </div>
+
                                                                 <div class="input-block col-lg-4">
                                                                     <label class="form-label">Description</label>
                                                                     <input type="text"
@@ -127,28 +130,36 @@
                                                                         class="form-control"
                                                                         placeholder="Enter description">
                                                                 </div>
+
                                                                 <div class="input-block col-lg-3">
                                                                     <label class="form-label">Upload Image</label>
-                                                                    
                                                                     <input type="file"
                                                                         name="services[{{ $index }}][image]"
                                                                         class="form-control">
-                                                                    @if ($service->image)
+                                                                    @if (!empty($service->image))
                                                                         <img src="{{ asset('images/services/' . $service->image) }}"
+                                                                            onerror="this.src='{{ asset('images/placeholder.jpg') }}';"
                                                                             alt="Service Image"
                                                                             style="max-width: 100px; margin-top:5px;">
-                                                                            
                                                                     @endif
                                                                 </div>
                                                                 <div
                                                                     class="input-block col-lg-1 mb-0 d-flex align-items-end">
+                                                                    <input type="hidden"
+                                                                        name="services[{{ $index }}][id]"
+                                                                        value="{{ $service->id }}">
                                                                     <a href="javascript:void(0);"
-                                                                        class="btn trash-icon remove-service"
-                                                                        title="Remove Service"><i
-                                                                            class="far fa-trash-alt"></i></a>
+                                                                        class="btn remove-service">
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </a>
+
                                                                 </div>
                                                             </div>
-                                                        @empty
+                                                            @php $index++; @endphp
+                                                        @endforeach
+
+                                                        {{-- If no services exist, show empty row --}}
+                                                        @if (auth()->user()->services->isEmpty())
                                                             <div
                                                                 class="form-row align-items-center skill-cont service-row mb-3">
                                                                 <div class="input-block col-lg-4">
@@ -172,11 +183,12 @@
                                                                     class="input-block col-lg-1 mb-0 d-flex align-items-end">
                                                                     <a href="javascript:void(0);"
                                                                         class="btn trash-icon remove-service"
-                                                                        title="Remove Service"><i
-                                                                            class="far fa-trash-alt"></i></a>
+                                                                        title="Remove Service">
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </a>
                                                                 </div>
                                                             </div>
-                                                        @endforelse
+                                                        @endif
                                                     </div>
 
                                                     <a href="javascript:void(0)" id="add-service-btn"
@@ -184,6 +196,7 @@
                                                         <i class="feather-plus-circle me-2"></i>Add New
                                                     </a>
                                                 </div>
+
                                             </div>
                                         </div>
                                         {{-- Services Section End --}}
@@ -195,8 +208,13 @@
                                                     <h4 class="pro-titles without-border mb-0">Certificates</h4>
                                                 </div>
                                                 <div class="pro-body">
+                                                    <div id="deleted-certificates-container"></div>
                                                     <div id="certificates-wrapper">
                                                         @forelse(old('certificates', auth()->user()->certificates) as $index => $certificate)
+
+                                                            <input type="hidden"
+                                                                name="certificates[{{ $index }}][id]"
+                                                                value="{{ $certificate->id ?? '' }}">
                                                             <div
                                                                 class="form-row align-items-center skill-cont certificate-row mb-3">
                                                                 <div class="input-block col-lg-2">
@@ -209,12 +227,20 @@
                                                                 </div>
                                                                 <div class="input-block col-lg-3">
                                                                     <label class="form-label">Institute</label>
-                                                                    <input type="text"
+                                                                    <select
                                                                         name="certificates[{{ $index }}][institute]"
-                                                                        class="form-control"
-                                                                        placeholder="Enter institute"
-                                                                        value="{{ old('certificates.' . $index . '.institute', $certificate->institute ?? '') }}">
+                                                                        class="form-control">
+                                                                        <option value="">Select institute
+                                                                        </option>
+                                                                        @foreach (getAllInstitutes() as $institute)
+                                                                            <option value="{{ $institute->name }}"
+                                                                                @if (old('certificates.' . $index . '.institute', $certificate->institute ?? '') == $institute->name) selected @endif>
+                                                                                {{ $institute->name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
                                                                 </div>
+
                                                                 <div class="input-block col-lg-2">
                                                                     <label class="form-label">Start Date</label>
                                                                     <input type="date"
@@ -239,9 +265,11 @@
                                                                 </div>
                                                                 <div
                                                                     class="input-block col-lg-1 mb-0 d-flex align-items-end">
+                                                                    <input type="hidden"
+                                                                        name="certificates[{{ $index }}][id]"
+                                                                        value="{{ $certificate->id }}">
                                                                     <a href="javascript:void(0);"
-                                                                        class="btn trash-icon remove-certificate"
-                                                                        data-service-id="{{ $service->id ?? '' }}"
+                                                                        class="btn remove-certificate"
                                                                         title="Remove Certificate">
                                                                         <i class="far fa-trash-alt"></i>
                                                                     </a>
@@ -310,39 +338,52 @@
                                                     <h4 class="pro-titles without-border mb-0">Expertises</h4>
                                                 </div>
                                                 <div class="pro-body">
-                                        <div id="expertise-wrapper">
-                                            @forelse(old('tags', auth()->user()->expertises) as $index => $tag)
-                                                <div class="form-row align-items-center skill-cont mb-2 expertise-row">
-                                                    <div class="input-block col-lg-10">
-                                                        <label class="form-label">Tags</label>
-                                                        <input type="text" class="form-control"
-                                                            name="tags[{{ $index }}][tags]"
-                                                            value="{{ is_array($tag) ? $tag['tags'] : $tag->tags }}"
-                                                            placeholder="Enter expertise tag">
+                                                    <div id="deleted-expertises-container"></div>
+                                                    <div id="expertise-wrapper">
+                                                        @forelse(old('tags', auth()->user()->expertises) as $index => $tag)
+                                                            <div
+                                                                class="form-row align-items-center skill-cont mb-2 expertise-row">
+                                                                <div class="input-block col-lg-10">
+                                                                    <label class="form-label">Tags</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="tags[{{ $index }}][tags]"
+                                                                        value="{{ is_array($tag) ? $tag['tags'] : $tag->tags }}"
+                                                                        placeholder="Enter expertise tag">
+
+                                                                    <!-- HIDDEN ID FIELD (required for deletion to work) -->
+                                                                    <input type="hidden"
+                                                                        name="tags[{{ $index }}][id]"
+                                                                        value="{{ is_array($tag) ? $tag['id'] ?? '' : $tag->id }}">
+                                                                </div>
+                                                                <div
+                                                                    class="input-block col-lg-1 mb-0 d-flex align-items-end">
+                                                                    <a href="javascript:void(0);"
+                                                                        class="btn remove-exp" title="Remove Tag">
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @empty
+
+                                                            <div
+                                                                class="form-row align-items-center skill-cont mb-2 expertise-row">
+                                                                <div class="input-block col-lg-10">
+                                                                    <label class="form-label">Tags</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="tags[0][tags]"
+                                                                        placeholder="Enter expertise tag">
+                                                                </div>
+                                                                <div
+                                                                    class="input-block col-lg-1 mb-0 d-flex align-items-end">
+                                                                    <a href="javascript:void(0);"
+                                                                        class="btn remove-exp" title="Remove Tag">
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        @endforelse
                                                     </div>
-                                                    <div class="input-block col-lg-1 mb-0 d-flex align-items-end">
-                                                        <a href="javascript:void(0);"
-                                                            class="btn trash-icon remove-exp" title="Remove Tag">
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            @empty
-                                                <div class="form-row align-items-center skill-cont mb-2 expertise-row">
-                                                    <div class="input-block col-lg-10">
-                                                        <label class="form-label">Tags</label>
-                                                        <input type="text" class="form-control"
-                                                            name="tags[0][tags]" placeholder="Enter expertise tag">
-                                                    </div>
-                                                    <div class="input-block col-lg-1 mb-0 d-flex align-items-end">
-                                                        <a href="javascript:void(0);"
-                                                            class="btn trash-icon remove-exp" title="Remove Tag">
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            @endforelse
-                                        </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -376,6 +417,68 @@
     <!-- /Main Wrapper -->
 
     @include('service.Layouts.profile-footer-script')
+
+
+    <script>
+        $(document).ready(function() {
+            //console.log("jQuery is ready");
+            //Remove Services
+            $(document).on('click', '.remove-service', function() {
+                alert("Clicked remove!");
+                let row = $(this).closest('.service-row');
+                let id = row.find('input[name*="[id]"]').val();
+
+                //console.log("Removing ID:", id);
+
+                if (id) {
+                    $('#deleted-inputs-container').append(
+                        `<input type="hidden" name="deleted_services[]" value="${id}">`
+                    );
+                }
+
+                row.remove();
+            });
+            //Remove Certificates
+            $(document).on('click', '.remove-certificate', function() {
+                //alert("Clicked remove!");
+                let row = $(this).closest('.certificate-row');
+                let id = row.find('input[name*="[id]"]').val();
+                //console.log("Removing ID:", id);
+                if (id) {
+                    $('#deleted-certificates-container').append(
+                        `<input type="hidden" name="deleted_certificates[]" value="${id}">`
+                    );
+                }
+
+                row.remove();
+            });
+            // Remove Expertises
+            $(document).on('click', '.remove-exp', function() {
+                let row = $(this).closest('.expertise-row');
+                let id = row.find('input[type="hidden"][name*="[id]"]').val();
+                let tagInput = row.find('input[type="text"][name*="[tags]"]');
+
+                console.log("Clicked remove! ID:", id);
+
+                // If ID exists (i.e., it's an existing expertise), mark it for deletion
+                if (id) {
+                    $('#deleted-expertises-container').append(
+                        `<input type="hidden" name="deleted_expertises[]" value="${id}">`
+                    );
+                }
+
+                // Reset input fields to avoid saving wrong values
+                tagInput.val(''); // clear tag name
+                row.find('input[type="hidden"][name*="[id]"]').val(
+                ''); // clear id to prevent storing in tags
+
+                // Then remove the row
+                row.remove();
+            });
+
+        });
+    </script>
+
 
 </body>
 

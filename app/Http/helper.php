@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Setting;
+use App\Models\Institute;
 
 function FileUpload($file, $path)
 {
@@ -19,3 +20,10 @@ if (!function_exists('Setting')) {
 		return Setting::first();
 	}
 }
+
+// All Institutes
+function getAllInstitutes()
+{
+    return Institute::all();
+}
+

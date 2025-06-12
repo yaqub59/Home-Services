@@ -100,18 +100,20 @@ class ServiceProvider extends Controller
 
             $user->update($request->only('name', 'email', 'job_title'));
 
-            // SERVICES
-            // Collect incoming service IDs
-            $incomingServiceIds = collect($request->services ?? [])->pluck('id')->filter()->toArray();
-
-            // Delete services which are not in the request (removed by user)
-            $user->services()->whereNotIn('id', $incomingServiceIds)->delete();
-
-            foreach ($request->services ?? [] as $service) {
+            // Get all deleted service IDs from hidden input (set via JS)
+            $deletedServiceIds = $request->input('deleted_services', []);
+            if (!empty($deletedServiceIds)) {
+                $user->services()->whereIn('id', $deletedServiceIds)->delete();
+            }
+            // Proceed with update or create
+            foreach ($request->services ?? [] as $index => $service) {
                 $imagePath = null;
-                // Check if image file uploaded
-                if (isset($service['image']) && $service['image'] instanceof \Illuminate\Http\UploadedFile) {
-                    $imagePath = FileUpload($service['image'], 'services');
+
+                // Get uploaded image dynamically
+                $uploadedImage = $request->file("services.$index.image");
+
+                if ($uploadedImage && $uploadedImage->isValid()) {
+                    $imagePath = FileUpload($uploadedImage, 'images/services');
                 }
 
                 if (!empty($service['id'])) {
@@ -121,11 +123,10 @@ class ServiceProvider extends Controller
                         $existingService->name = $service['name'];
                         $existingService->description = $service['description'] ?? null;
 
-                        // Only update image if new image uploaded, else keep old image
                         if ($imagePath) {
-                            // Optionally delete old image file here if needed
                             $existingService->image = $imagePath;
                         }
+
                         $existingService->save();
                     }
                 } else {
@@ -138,36 +139,80 @@ class ServiceProvider extends Controller
                 }
             }
 
-            // CERTIFICATES
-            $user->certificates()->delete();
 
+            // CERTIFICATES
+            $deletedCertIds = $request->input('deleted_certificates', []);
+
+            if (!empty($deletedCertIds)) {
+                $user->certificates()->whereIn('id', $deletedCertIds)->delete();
+            }
+
+            // Update or create certificates
             foreach ($request->certificates ?? [] as $cert) {
                 $startDate = $cert['start_date'] ?? null;
                 $endDate = $cert['end_date'] ?? null;
 
-                $user->certificates()->create([
-                    'name' => $cert['name'],
-                    'institute' => $cert['institute'] ?? null,
-                    'start_date' => $startDate ? \Carbon\Carbon::parse($startDate)->format('Y-m-d') : null,
-                    'end_date' => $endDate ? \Carbon\Carbon::parse($endDate)->format('Y-m-d') : null,
-                    'description' => $cert['description'] ?? null,
-                ]);
-            }
-
-
-
-            // EXPERTISE TAGS
-            $user->expertises()->delete();
-            foreach ($request->tags ?? [] as $tag) {
-                if (!empty($tag['tags'])) {
-                    $user->expertises()->create([
-                        'tags' => $tag['tags'],
+                if (!empty($cert['id'])) {
+                    // Update existing certificate
+                    $existing = $user->certificates()->find($cert['id']);
+                    if ($existing) {
+                        $existing->update([
+                            'name' => $cert['name'],
+                            'institute' => $cert['institute'] ?? null,
+                            'start_date' => $startDate ? \Carbon\Carbon::parse($startDate)->format('Y-m-d') : null,
+                            'end_date' => $endDate ? \Carbon\Carbon::parse($endDate)->format('Y-m-d') : null,
+                            'description' => $cert['description'] ?? null,
+                        ]);
+                    }
+                } else {
+                    // Create new certificate
+                    $user->certificates()->create([
+                        'name' => $cert['name'],
+                        'institute' => $cert['institute'] ?? null,
+                        'start_date' => $startDate ? \Carbon\Carbon::parse($startDate)->format('Y-m-d') : null,
+                        'end_date' => $endDate ? \Carbon\Carbon::parse($endDate)->format('Y-m-d') : null,
+                        'description' => $cert['description'] ?? null,
                     ]);
                 }
             }
 
-            DB::commit();
 
+
+
+            // EXPERTISE TAGS
+            $deletedExpIds = $request->input('deleted_expertises', []);
+
+            // Step 1: Delete removed expertises
+            if (!empty($deletedExpIds)) {
+                $user->expertises()->whereIn('id', $deletedExpIds)->delete();
+            }
+
+            // Step 2: Collect IDs of incoming tags
+            $incomingIds = [];
+            foreach ($request->tags ?? [] as $tag) {
+                // Skip empty or corrupted ones
+                if (!empty($tag['id'])) {
+                    $existing = $user->expertises()->find($tag['id']);
+                    if ($existing) {
+                        $existing->update([
+                            'tags' => $tag['tags'],
+                        ]);
+                    }
+                } else {
+                    // Protect against saving the ID accidentally as tag text
+                    if (!is_numeric($tag['tags']) && !empty($tag['tags'])) {
+                        $user->expertises()->create([
+                            'tags' => $tag['tags'],
+                        ]);
+                    }
+                }
+            }
+
+
+
+
+            DB::commit();
+            sleep(1);
             return back()->with('success', 'Profile updated successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -183,18 +228,18 @@ class ServiceProvider extends Controller
      */
     public function ShowReview()
     {
-      $requests = Requests::with('employer') // Assuming a relation
+        $requests = Requests::with('employer') // Assuming a relation
             ->where('service_provider_id', auth()->id())
             ->get();
         return view('service.requests.index')
             ->with('requests', $requests);
     }
-     /**
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-      public function updateStatus($id, $status)
+    public function updateStatus($id, $status)
     {
         $request = Requests::findOrFail($id);
 
@@ -205,18 +250,19 @@ class ServiceProvider extends Controller
 
         return redirect()->back()->with('success', 'Status updated successfully.');
     }
-      /**
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function showReviews(){
+    public function showReviews()
+    {
         $userId = auth()->id();
 
-    $reviews = Reviews::with('employer')
-        ->where('reviewee_id', $userId)
-        ->latest()
-        ->get();
-    return view('service.requests.reviews', compact('reviews'));
+        $reviews = Reviews::with('employer')
+            ->where('reviewee_id', $userId)
+            ->latest()
+            ->get();
+        return view('service.requests.reviews', compact('reviews'));
     }
 }
