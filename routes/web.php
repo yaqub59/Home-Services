@@ -67,6 +67,8 @@ Route::middleware(['auth'])->prefix('home')->group(function () {
     Route::get('/request/create/{id}', [RequestsController::class, 'create'])->name('request.create');
     Route::post('/request/store', [RequestsController::class, 'store'])->name('request.store');
     Route::get('/request/provider-details/{id}', [RequestsController::class, 'providerDetails'])->name('provider-details');
+    Route::get('/profile', [RequestsController::class, 'Profile'])->name('employer.profile');
+    Route::post('/profile-update', [RequestsController::class, 'ProfileUpdate'])->name('employer.update');
 
     // Reviews routes
     Route::get('/request/reviews', [RequestsController::class, 'Reviews'])->name('reviews');

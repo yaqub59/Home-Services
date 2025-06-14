@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Reviews;
 use App\Models\Expertises;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class RequestsController extends Controller
 {
@@ -159,6 +160,48 @@ class RequestsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    
-  
+    public function Profile()
+    {
+        $employer = User::find(auth()->id());
+        return view('employer.profile')
+            ->with('employer', $employer);
+    }
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function ProfileUpdate(Request $request)
+    {
+        try {
+            $employer = auth()->user();
+
+            // Validation
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . $employer->id,
+                'job_title' => 'nullable|string|max:255',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+                'password' => 'nullable|string|min:6|confirmed',
+            ]);
+
+            // Update basic fields
+            $employer->name = $request->name;
+            $employer->email = $request->email;
+            $employer->job_title = $request->job_title;
+            $path = 'images/employer';
+            if ($request->hasFile('image')) {
+                $employer->image = FileUpload($request->image, $path);
+            }
+
+            // Handle Password Change
+            if ($request->filled('password')) {
+                $employer->password = Hash::make($request->password);
+            }
+
+            $employer->save();
+
+            return back()->with('success', 'Profile updated successfully!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
+    }
 }

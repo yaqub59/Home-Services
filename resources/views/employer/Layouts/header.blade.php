@@ -46,6 +46,9 @@
                                 </div>
                             </a>
                         </div>
+                        <a class="dropdown-item" href="{{ route('employer.profile') }}"><img
+                                src="{{ url('assets/img/icon/user-dropdown-icon--01.svg') }}" alt="Img"> My
+                            Profile</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); 
                             document.getElementById('logout-form').submit();"><img
