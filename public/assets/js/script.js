@@ -1510,60 +1510,54 @@ Version      : 1.0
 	// Remove service row and track deleted IDs
 
 
-
-
-
-
-
-
 	// Certificate 
 
-	let certificateIndex = $('#certificates-wrapper .certificate-row').length;
-	if (certificateIndex == 0) certificateIndex = 1;
+	// let certificateIndex = $('#certificates-wrapper .certificate-row').length;
+	// if (certificateIndex == 0) certificateIndex = 1;
 
-	$('#add-certificate-btn').click(function () {
-		let html = '';
-		html += '<div class="form-row align-items-center skill-cont certificate-row mb-3">';
+	// $('#add-certificate-btn').click(function () {
+	// 	let html = '';
+	// 	html += '<div class="form-row align-items-center skill-cont certificate-row mb-3">';
 
-		html += '<div class="input-block col-lg-2">';
-		html += '<label class="form-label">Name</label>';
-		html += '<input type="text" name="certificates[' + certificateIndex + '][name]" class="form-control" placeholder="Enter certificate name">';
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-2">';
+	// 	html += '<label class="form-label">Name</label>';
+	// 	html += '<input type="text" name="certificates[' + certificateIndex + '][name]" class="form-control" placeholder="Enter certificate name">';
+	// 	html += '</div>';
 
-		html += '<div class="input-block col-lg-3">';
-		html += '<label class="form-label">Institute</label>';
-		html += '<input type="text" name="certificates[' + certificateIndex + '][institute]" class="form-control" placeholder="Enter institute">';
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-3">';
+	// 	html += '<label class="form-label">Institute</label>';
+	// 	html += '<input type="text" name="certificates[' + certificateIndex + '][institute]" class="form-control" placeholder="Enter institute">';
+	// 	html += '</div>';
 
-		html += '<div class="input-block col-lg-2">';
-		html += '<label class="form-label">Start Date</label>';
-		html += '<input type="date" name="certificates[' + certificateIndex + '][start_date]" class="form-control">';
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-2">';
+	// 	html += '<label class="form-label">Start Date</label>';
+	// 	html += '<input type="date" name="certificates[' + certificateIndex + '][start_date]" class="form-control">';
+	// 	html += '</div>';
 
-		html += '<div class="input-block col-lg-2">';
-		html += '<label class="form-label">End Date</label>';
-		html += '<input type="date" name="certificates[' + certificateIndex + '][end_date]" class="form-control">';
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-2">';
+	// 	html += '<label class="form-label">End Date</label>';
+	// 	html += '<input type="date" name="certificates[' + certificateIndex + '][end_date]" class="form-control">';
+	// 	html += '</div>';
 
-		html += '<div class="input-block col-lg-2">';
-		html += '<label class="form-label">Description</label>';
-		html += '<input type="text" name="certificates[' + certificateIndex + '][description]" class="form-control" placeholder="Enter description">';
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-2">';
+	// 	html += '<label class="form-label">Description</label>';
+	// 	html += '<input type="text" name="certificates[' + certificateIndex + '][description]" class="form-control" placeholder="Enter description">';
+	// 	html += '</div>';
 
-		html += '<div class="input-block col-lg-1 mb-0 d-flex align-items-end">';
-		html += '<a href="javascript:void(0);" class="btn trash-icon remove-certificate" title="Remove Certificate"><i class="far fa-trash-alt"></i></a>';
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-1 mb-0 d-flex align-items-end">';
+	// 	html += '<a href="javascript:void(0);" class="btn trash-icon remove-certificate" title="Remove Certificate"><i class="far fa-trash-alt"></i></a>';
+	// 	html += '</div>';
 
-		html += '</div>';
+	// 	html += '</div>';
 
-		$('#certificates-wrapper').append(html);
-		certificateIndex++;
+	// 	$('#certificates-wrapper').append(html);
+	// 	certificateIndex++;
 
-		// Attach remove event
-		$('.remove-certificate').off('click').on('click', function () {
-			$(this).closest('.certificate-row').remove();
-		});
-	});
+	// 	// Attach remove event
+	// 	$('.remove-certificate').off('click').on('click', function () {
+	// 		$(this).closest('.certificate-row').remove();
+	// 	});
+	// });
 
 
 	// Remove event for existing rows

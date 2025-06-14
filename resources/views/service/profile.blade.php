@@ -276,48 +276,9 @@
                                                                 </div>
                                                             </div>
                                                         @empty
-                                                            <div
-                                                                class="form-row align-items-center skill-cont certificate-row mb-3">
-                                                                <div class="input-block col-lg-2">
-                                                                    <label class="form-label">Name</label>
-                                                                    <input type="text" name="certificates[0][name]"
-                                                                        class="form-control"
-                                                                        placeholder="Enter certificate name">
-                                                                </div>
-                                                                <div class="input-block col-lg-3">
-                                                                    <label class="form-label">Institute</label>
-                                                                    <input type="text"
-                                                                        name="certificates[0][institute]"
-                                                                        class="form-control"
-                                                                        placeholder="Enter institute">
-                                                                </div>
-                                                                <div class="input-block col-lg-2">
-                                                                    <label class="form-label">Start Date</label>
-                                                                    <input type="date"
-                                                                        name="certificates[0][start_date]"
-                                                                        class="form-control">
-                                                                </div>
-                                                                <div class="input-block col-lg-2">
-                                                                    <label class="form-label">End Date</label>
-                                                                    <input type="date"
-                                                                        name="certificates[0][end_date]"
-                                                                        class="form-control">
-                                                                </div>
-                                                                <div class="input-block col-lg-2">
-                                                                    <label class="form-label">Description</label>
-                                                                    <input type="text"
-                                                                        name="certificates[0][description]"
-                                                                        class="form-control"
-                                                                        placeholder="Enter description">
-                                                                </div>
-                                                                <div
-                                                                    class="input-block col-lg-1 mb-0 d-flex align-items-end">
-                                                                    <a href="javascript:void(0);"
-                                                                        class="btn trash-icon remove-certificate"
-                                                                        title="Remove Certificate">
-                                                                        <i class="far fa-trash-alt"></i>
-                                                                    </a>
-                                                                </div>
+                                                            <div class="alert alert-warning text-center"
+                                                                id="empty-certificate-message">
+                                                                <i class="feather-info"></i> No records found.
                                                             </div>
                                                         @endforelse
                                                     </div>
@@ -470,14 +431,71 @@
                 // Reset input fields to avoid saving wrong values
                 tagInput.val(''); // clear tag name
                 row.find('input[type="hidden"][name*="[id]"]').val(
-                ''); // clear id to prevent storing in tags
+                    ''); // clear id to prevent storing in tags
 
                 // Then remove the row
                 row.remove();
             });
-
         });
     </script>
+    <!-- Then your full add-certificate-btn logic -->
+    <script>
+        const institutes = @json(getAllInstitutes()->pluck('name'));
+        let certificateIndex = {{ $index ?? 1 }};
+
+        document.getElementById('add-certificate-btn').addEventListener('click', function() {
+            const wrapper = document.getElementById('certificates-wrapper');
+
+            // ✅ Remove empty message if present
+            const emptyMessage = document.getElementById('empty-certificate-message');
+            if (emptyMessage) {
+                emptyMessage.remove();
+            }
+
+            // ✅ Append new certificate row
+            let html = `
+        <div class="form-row align-items-center skill-cont certificate-row mb-3">
+            <div class="input-block col-lg-2">
+                <label class="form-label">Name</label>
+                <input type="text" name="certificates[${certificateIndex}][name]" class="form-control" placeholder="Enter certificate name">
+            </div>
+            <div class="input-block col-lg-3">
+                <label class="form-label">Institute</label>
+                <select name="certificates[${certificateIndex}][institute]" class="form-control">
+                    <option value="">Select institute</option>`;
+
+            institutes.forEach(function(institute) {
+                html += `<option value="${institute}">${institute}</option>`;
+            });
+
+            html += `
+                </select>
+            </div>
+            <div class="input-block col-lg-2">
+                <label class="form-label">Start Date</label>
+                <input type="date" name="certificates[${certificateIndex}][start_date]" class="form-control">
+            </div>
+            <div class="input-block col-lg-2">
+                <label class="form-label">End Date</label>
+                <input type="date" name="certificates[${certificateIndex}][end_date]" class="form-control">
+            </div>
+            <div class="input-block col-lg-2">
+                <label class="form-label">Description</label>
+                <input type="text" name="certificates[${certificateIndex}][description]" class="form-control" placeholder="Enter description">
+            </div>
+            <div class="input-block col-lg-1 d-flex align-items-end">
+                <a href="javascript:void(0);" class="btn remove-certificate" title="Remove">
+                    <i class="far fa-trash-alt"></i>
+                </a>
+            </div>
+        </div>`;
+
+            wrapper.insertAdjacentHTML('beforeend', html);
+            certificateIndex++;
+        });
+    </script>
+
+
 
 
 </body>

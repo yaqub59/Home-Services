@@ -1,7 +1,8 @@
 @section('title')
-Service Provider Details
+    Service Provider Details
 @endsection
 @include('employer.Layouts.provider-deatils-head');
+
 <body>
 
     <!-- Main Wrapper -->
@@ -43,25 +44,40 @@ Service Provider Details
 
                         </div>
                         <div class="company-detail-block company-description">
-                            <h4 class="company-detail-title">Description</h4>
+                            <h4 class="company-detail-title">Services</h4>
 
                             @if ($serviceProvider->services->isNotEmpty())
-                                @php
-                                    $firstService = $serviceProvider->services->first();
-                                @endphp
+                                @foreach ($serviceProvider->services as $service)
+                                    <div class="mb-4 p-3" style="border: 1px solid #ddd; border-radius: 10px;">
 
-                                @if ($firstService->name && $firstService->description)
-                                    <p><strong>Service:</strong> {{ $firstService->name }}</p>
-                                    <p>{{ $firstService->description }}</p>
-                                @elseif($firstService->description)
-                                    <p>{{ $firstService->description }}</p>
-                                @else
-                                    <p>No professional description available for this service provider yet.</p>
-                                @endif
+                                        {{-- Service Image --}}
+                                        @if ($service->image)
+                                            <div class="mb-2">
+                                                <img src="{{ asset('images/services/' . $service->image) }}" alt="Service Image"
+                                                    style="max-width: 100%; height: auto; border-radius: 8px;">
+                                            </div>
+                                        @endif
+
+
+                                        {{-- Service Name --}}
+                                        @if ($service->name)
+                                            <p><strong>Service:</strong> {{ $service->name }}</p>
+                                        @endif
+
+                                        {{-- Service Description --}}
+                                        @if ($service->description)
+                                            <p>{{ $service->description }}</p>
+                                        @else
+                                            <p><em>No description available for this service.</em></p>
+                                        @endif
+
+                                    </div>
+                                @endforeach
                             @else
-                                <p>No professional description available for this service provider yet.</p>
+                                <p>No services added by this service provider yet.</p>
                             @endif
                         </div>
+
                         <div class="company-detail-block company-description">
                             <h4 class="company-detail-title">Certificates</h4>
                             <div class="experience-set-container"> {{-- Added a container for better grouping --}}
@@ -70,8 +86,7 @@ Service Provider Details
                                         <div class="experience-set-img">
                                             {{-- You might want to display a certificate-specific icon/image if available,
                          otherwise keep the default report.png --}}
-                                            <img src="{{ asset('assets/img/icon/report.png') }}"
-                                                alt="Certificate Icon">
+                                            <img src="{{ asset('assets/img/icon/report.png') }}" alt="Certificate Icon">
                                         </div>
                                         <div class="experience-set-content">
                                             <h5>
@@ -127,7 +142,8 @@ Service Provider Details
                                 </ul>
                             </div>
                             <div>
-                                <a href="{{ route('request.create', $serviceProvider->id) }}" class="btn proposal-btn btn-primary">Send
+                                <a href="{{ route('request.create', $serviceProvider->id) }}"
+                                    class="btn proposal-btn btn-primary">Send
                                     Send Request</a>
                             </div>
                         </div>
