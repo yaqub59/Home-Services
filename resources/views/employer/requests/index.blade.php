@@ -55,9 +55,13 @@
                             </h5>
                             <p class="text-muted text-center mb-1">Institutes</p>
                             <div class="d-flex flex-wrap justify-content-center gap-1 mb-3">
-                                @foreach ($providers->certificates as $certificate)
-                                    <span class="badge bg-primary">{{ $certificate->institute }}</span>
-                                @endforeach
+                                @if ($providers->certificates->isNotEmpty())
+                                    @foreach ($providers->certificates as $certificate)
+                                        <span class="badge bg-primary">{{ $certificate->institute }}</span>
+                                    @endforeach
+                                @else
+                                    <span class="badge bg-secondary">Not updated</span>
+                                @endif
                             </div>
                             <div class="d-flex justify-content-center align-items-center mb-2">
                                 @for ($i = 1; $i <= 5; $i++)
@@ -67,9 +71,13 @@
                             </div>
                             <p class="text-muted text-center mb-1">Expertise</p>
                             <div class="d-flex flex-wrap justify-content-center gap-1 mb-3">
-                                @foreach ($providers->expertises as $expertise)
-                                    <span class="badge bg-primary">{{ $expertise->tags }}</span>
-                                @endforeach
+                                @if ($providers->expertises->isNotEmpty())
+                                    @foreach ($providers->expertises as $expertise)
+                                        <span class="badge bg-primary">{{ $expertise->tags }}</span>
+                                    @endforeach
+                                @else
+                                    <span class="badge bg-secondary">Not updated</span>
+                                @endif
                             </div>
                         </div>
                         <div class="mt-auto">
