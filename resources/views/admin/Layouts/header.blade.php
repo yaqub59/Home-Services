@@ -93,22 +93,7 @@
                                  </div>
                              </a>
                          </li>
-                         <li class="notification-message">
-                             <a href="javascript:void(0);">
-                                 <div class="media d-flex">
-                                     <span class="avatar avatar-sm flex-shrink-0">
-                                         <img class="avatar-img rounded-circle" alt="Img"
-                                             src="{{ asset('admin-assets/img/profiles/avatar-04.jpg') }}">
-                                     </span>
-                                     <div class="media-body flex-grow-1">
-                                         <p class="noti-details"><span class="noti-title">Barbara Moore</span>
-                                             declined the invoice <span class="noti-title">#RDW026896</span></p>
-                                         <p class="noti-time"><span class="notification-time">12 mins
-                                                 ago</span></p>
-                                     </div>
-                                 </div>
-                             </a>
-                         </li>
+                          
                          <li class="notification-message">
                              <a href="javascript:void(0);">
                                  <div class="media d-flex">
@@ -127,9 +112,7 @@
                          </li>
                      </ul>
                  </div>
-                 <div class="topnav-dropdown-footer">
-                     <a href="javascript:void(0);">View all Notifications</a>
-                 </div>
+                 
              </div>
          </li>
          <!-- /Notifications -->

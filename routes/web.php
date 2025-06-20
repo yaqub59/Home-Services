@@ -10,7 +10,7 @@ use App\Http\Controllers\RequestsController;
 Auth::routes();
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('welcome');
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
