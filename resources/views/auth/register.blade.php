@@ -26,7 +26,7 @@
                             <nav class="user-tabs mb-4">
                                 <ul role="tablist" class="nav nav-pills nav-justified">
                                     <li class="nav-item">
-                                        <a href="#developer" data-bs-toggle="tab" class="nav-link active">Service</a>
+                                        <a href="#developer" data-bs-toggle="tab" class="nav-link active">Service Provider</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#company" data-bs-toggle="tab" class="nav-link">Employer</a>
@@ -38,7 +38,7 @@
                                     <form method="POST" action="{{ route('register') }}">
                                         @csrf
                                         <div class="input-block ">
-                                            <label class="focus-label">Service Name <span class="label-star">
+                                            <label class="focus-label">Service Provider Name <span class="label-star">
                                                     *</span></label>
                                             <input type="text"
                                                 class="form-control floating"

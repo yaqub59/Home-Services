@@ -9,13 +9,13 @@
                                 <span></span>
                             </span>
                         </a>
-                        <a href="index.html" class="navbar-brand logo">
+                        <a href="javascript:void(0);" class="navbar-brand logo">
                             <img src="{{ asset('images/settings/' .Setting()->site_logo) }}" height="60" width="60" class="img-fluid" alt="Logo">
                         </a>
                     </div>
                     <div class="main-menu-wrapper">
                         <div class="menu-header">
-                            <a href="index.html" class="menu-logo">
+                            <a href="javascript:void(0);" class="menu-logo">
                                 <img src="{{ asset('images/settings/' .Setting()->site_logo) }}" height="60" width="60" class="img-fluid" alt="Logo">
                             </a>
                             <a id="menu_close" class="menu-close" href="javascript:void(0);">

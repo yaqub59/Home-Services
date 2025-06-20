@@ -34,7 +34,7 @@
      <ul class="nav user-menu">
 
          <!-- Notifications -->
-         <li class="nav-item dropdown">
+         {{-- <li class="nav-item dropdown">
              <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                  <i class="feather-bell"></i> <span class="badge badge-pill">5</span>
              </a>
@@ -114,7 +114,7 @@
                  </div>
                  
              </div>
-         </li>
+         </li> --}}
          <!-- /Notifications -->
 
          <!-- User Menu -->
