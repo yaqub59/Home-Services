@@ -1,7 +1,7 @@
  @extends('employer.Layouts.master')
  @section('content')
  @section('title')
-     Reviews
+     Requests
  @endsection
 
 
@@ -12,7 +12,7 @@
          </div>
          <div class="table-top-section">
              <div class="table-header">
-                 <h5 class="mb-0">Reviews</h5>
+                 <h5 class="mb-0">Requests</h5>
              </div>
              <div class="table-options">
                  <div class="data-search-input">
