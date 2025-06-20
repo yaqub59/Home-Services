@@ -15,7 +15,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('reviews') }}" class="nav-link {{ Route::currentRouteName() == 'reviews' ? 'active' : '' }}">
-                    <img src="{{ asset('assets/img/icon/sidebar-icon-04.svg')}}" alt="Img"> Reviews
+                    <img src="{{ asset('assets/img/icon/sidebar-icon-04.svg')}}" alt="Img"> Requests
                 </a>
             </li>
         </ul>
