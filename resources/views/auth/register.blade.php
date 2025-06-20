@@ -24,12 +24,14 @@
                                         width="70"alt="logo" class="img-fluid"></a>
                             </div>
                             <nav class="user-tabs mb-4">
-                                <ul role="tablist" class="nav nav-pills nav-justified">
-                                    <li class="nav-item">
-                                        <a href="#developer" data-bs-toggle="tab" class="nav-link active">Service Provider</a>
+                                <ul role="tablist" class="nav nav-pills nav-justified w-100">
+                                    <li class="nav-item w-50">
+                                        <a href="#developer" data-bs-toggle="tab"
+                                            class="nav-link active text-center">Service Provider</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="#company" data-bs-toggle="tab" class="nav-link">Employer</a>
+                                    <li class="nav-item w-50">
+                                        <a href="#company" data-bs-toggle="tab"
+                                            class="nav-link text-center">Employer</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -40,25 +42,20 @@
                                         <div class="input-block ">
                                             <label class="focus-label">Service Provider Name <span class="label-star">
                                                     *</span></label>
-                                            <input type="text"
-                                                class="form-control floating"
-                                                name="name">
+                                            <input type="text" class="form-control floating" name="name">
                                         </div>
                                         <div class="input-block ">
                                             <label class="focus-label">Email Address<span class="label-star">
                                                     *</span></label>
-                                            <input type="email"
-                                                class="form-control floating"
-                                                name="email">
+                                            <input type="email" class="form-control floating" name="email">
                                         </div>
                                         <div class="input-block ">
                                             <label class="focus-label">Password <span class="label-star">
                                                     *</span></label>
                                             <div class="position-relative">
-                                                <input type="password"
-                                                    class="form-control floating pass-input"
+                                                <input type="password" class="form-control floating pass-input"
                                                     name="password">
-                                                 
+
                                                 <div class="password-icon ">
                                                     <span class="fas toggle-password fa-eye-slash"></span>
                                                 </div>
@@ -100,9 +97,7 @@
                                         <div class="input-block ">
                                             <label class="focus-label">Employer Name <span class="label-star">
                                                     *</span></label>
-                                            <input type="text"
-                                                class="form-control floating"
-                                                name="name">
+                                            <input type="text" class="form-control floating" name="name">
                                         </div>
                                         <div class="input-block ">
                                             <label class="focus-label">Email Address<span class="label-star">
