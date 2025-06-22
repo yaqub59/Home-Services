@@ -25,15 +25,19 @@ class RequestsController extends Controller
                     $subQuery->where('tags', 'like', '%' . $query . '%');
                 });
             })
-            ->with(['services', 'expertises', 'certificates'])
-            ->get();
+            ->with(['services', 'expertises', 'certificates', 'reviews']) // eager loading
+            ->get()
+            ->map(function ($provider) {
+                $provider->average_rating = round($provider->reviews->avg('rating'), 1);
+                $provider->total_reviews = $provider->reviews->count();
+                return $provider;
+            });
 
         $countproviders = $serviceProviders->count();
 
-        return view('employer.requests.index')
-            ->with('serviceProviders', $serviceProviders)
-            ->with('countproviders', $countproviders);
+        return view('employer.requests.index', compact('serviceProviders', 'countproviders'));
     }
+
 
 
     /**
@@ -61,16 +65,17 @@ class RequestsController extends Controller
      */
     public function store(Request $request)
     {
-        try {
             $request->validate([
                 'service_provider_id' => 'required|exists:users,id',
                 'details' => 'required|string',
+                'location' => 'required',
             ]);
-
+            try {
             Requests::create([
                 'employer_id' => auth()->id(),
                 'service_provider_id' => $request->service_provider_id,
                 'details' => $request->details,
+                'location' => $request->location,
                 'status' => 'pending',
             ]);
 

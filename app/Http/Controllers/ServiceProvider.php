@@ -73,6 +73,7 @@ class ServiceProvider extends Controller
             'name' => 'required|string',
             'email' => 'required|email',
             'job_title' => 'nullable|string',
+            'location' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
 
             'services.*.name' => 'required|string',
@@ -98,7 +99,7 @@ class ServiceProvider extends Controller
                 $user->image = $filename;
             }
 
-            $user->update($request->only('name', 'email', 'job_title'));
+            $user->update($request->only('name', 'email', 'job_title','location'));
 
             // Get all deleted service IDs from hidden input (set via JS)
             $deletedServiceIds = $request->input('deleted_services', []);

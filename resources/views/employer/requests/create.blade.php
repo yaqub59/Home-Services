@@ -6,7 +6,6 @@
             <div class="page-title mb-4">
                 <h3>Dashboard</h3>
             </div>
-
             <div class="container px-0">
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-primary text-white">
@@ -14,18 +13,22 @@
                             <strong>{{ $serviceProvider->name }}</strong>
                         </h5>
                     </div>
-
                     <div class="card-body">
                         <form method="POST" action="{{ route('request.store') }}">
                             @csrf
                             <input type="hidden" name="service_provider_id" value="{{ $serviceProvider->id }}">
+
                             <div class="mb-3">
                                 <label for="details" class="form-label">Request Details</label>
-                                <textarea name="details" id="details" rows="5" class="form-control @error('details') is-invalid @enderror"
+                                <textarea name="details" id="details" rows="5" class="form-control"
                                     placeholder="Write something about your request...">{{ old('details') }}</textarea>
-                                @error('details')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Service Location</label>
+                                <input type="text" name="location" id="location"
+                                    class="form-control"
+                                    placeholder="e.g. DHA Phase 6, Karachi" value="{{ old('location') }}">
                             </div>
 
                             <div class="d-grid">
@@ -34,9 +37,11 @@
                                 </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+

@@ -27,6 +27,7 @@ class User extends Authenticatable
         'type',
         'status',
         'job_title',
+        'location',
 
     ];
 
@@ -86,5 +87,9 @@ class User extends Authenticatable
     public function serviceProvider()
     {
         return $this->belongsTo(User::class, 'service_provider_id');
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Reviews::class, 'reviewee_id');
     }
 }

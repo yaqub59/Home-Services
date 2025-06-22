@@ -30,7 +30,7 @@
                             <div class="company-address">
                                 <ul>
                                     <li>
-                                        <i class="feather-map-pin"></i>Pakistan
+                                        <i class="feather-map-pin"></i>{{ $serviceProvider->location }}
                                     </li>
                                     <li>
                                         <i
@@ -53,7 +53,8 @@
                                         {{-- Service Image --}}
                                         @if ($service->image)
                                             <div class="mb-2">
-                                                <img src="{{ asset('images/services/' . $service->image) }}" alt="Service Image"
+                                                <img src="{{ asset('images/services/' . $service->image) }}"
+                                                    alt="Service Image"
                                                     style="max-width: 100%; height: auto; border-radius: 8px;">
                                             </div>
                                         @endif
@@ -133,7 +134,7 @@
                                 <ul class="buget-profiles">
                                     <li>
                                         <h6><i class="feather-map-pin me-2"></i>Location</h6>
-                                        <h5>Pakistan</h5>
+                                        <h5>{{ $serviceProvider->location }}</h5>
                                     </li>
                                     <li>
                                         <h6><i class="feather-mail me-2"></i>Mail</h6>

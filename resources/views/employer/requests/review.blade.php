@@ -28,6 +28,7 @@
                          <th>Service Provider</th>
                          <th>Status</th>
                          <th>Description</th>
+                         <th>Location</th>
                          <th>Requested At</th>
 
                      </tr>
@@ -74,6 +75,7 @@
                              </td>
 
                              <td>{{ $request->details }}</td>
+                             <td>{{ $request->location }}</td>
                              <td>{{ $request->created_at->format('h:i A - d M Y') }}</td>
                          </tr>
                      @empty

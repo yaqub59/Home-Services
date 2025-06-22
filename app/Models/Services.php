@@ -18,4 +18,8 @@ class Services extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Reviews::class, 'reviewee_id'); // ya 'provider_id' if different
+    }
 }

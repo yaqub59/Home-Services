@@ -72,14 +72,14 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-12">
+                                                <div class="col-lg-3 col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Name</label>
                                                         <input type="text" name="name"
                                                             value="{{ Auth::user()->name }}" class="form-control">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-12">
+                                                <div class="col-lg-3 col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Email Address</label>
                                                         <input type="text" name="email"
@@ -87,11 +87,18 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-12">
+                                                <div class="col-lg-3 col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Your Job Title</label>
                                                         <input type="text" name="job_title"
                                                             value="{{ Auth::user()->job_title }}" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3 col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Location</label>
+                                                        <input type="text" name="location"
+                                                            value="{{ Auth::user()->location }}" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>

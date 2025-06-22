@@ -63,11 +63,30 @@
                                     <span class="badge bg-secondary">Not updated</span>
                                 @endif
                             </div>
-                            <div class="d-flex justify-content-center align-items-center mb-2">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <i class="fas fa-star{{ $i <= 4 ? ' filled text-warning' : '' }}"></i>
-                                @endfor
-                                <span class="ms-2 text-muted">4.7 (32)</span>
+                            <div class="d-flex justify-content-center align-items-center gap-1 mb-2">
+                                @php
+                                    $rating = $providers->average_rating ?? 0;
+                                    $totalReviews = $providers->total_reviews ?? 0;
+                                @endphp
+
+                                {{-- Stars --}}
+                                <div>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= floor($rating))
+                                            <i class="fas fa-star text-warning"></i>
+                                        @elseif ($i - $rating < 1)
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                        @else
+                                            <i class="far fa-star text-warning"></i>
+                                        @endif
+                                    @endfor
+                                </div>
+
+                                {{-- Rating Number --}}
+                                <small class="text-muted ms-1">
+                                    <strong>{{ number_format($rating, 1) }}</strong>
+                                    <span class="text-secondary">({{ $totalReviews }} reviews)</span>
+                                </small>
                             </div>
                             <p class="text-muted text-center mb-1">Expertise</p>
                             <div class="d-flex flex-wrap justify-content-center gap-1 mb-3">

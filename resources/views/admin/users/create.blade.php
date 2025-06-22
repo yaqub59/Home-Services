@@ -5,7 +5,6 @@
 @section('content')
     <div class="row">
         <div class="col-sm-12">
-
             <!-- Custom Boostrap Validation -->
             <div class="card">
                 <div class="card-body">

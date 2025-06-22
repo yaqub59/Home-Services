@@ -26,6 +26,7 @@
                          <th>Employer Name</th>
                          <th>Details</th>
                          <th>Status</th>
+                         <th>Location</th>
                          <th>Date</th>
                      </tr>
                  </thead>
@@ -47,7 +48,7 @@
                                      </span>
                                  @endif
                              </td>
-
+                             <td>{{ $request->location }}</td>
                              <td>{{ $request->created_at->format('d M Y') }}</td>
                          </tr>
                      @empty

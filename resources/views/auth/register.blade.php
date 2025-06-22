@@ -31,7 +31,7 @@
                                     </li>
                                     <li class="nav-item w-50">
                                         <a href="#company" data-bs-toggle="tab"
-                                            class="nav-link text-center">Employer</a>
+                                            class="nav-link text-center">User</a>
                                     </li>
                                 </ul>
                             </nav>
@@ -95,7 +95,7 @@
                                     <form method="POST" action="{{ route('register') }}">
                                         @csrf
                                         <div class="input-block ">
-                                            <label class="focus-label">Employer Name <span class="label-star">
+                                            <label class="focus-label">User Name <span class="label-star">
                                                     *</span></label>
                                             <input type="text" class="form-control floating" name="name">
                                         </div>
