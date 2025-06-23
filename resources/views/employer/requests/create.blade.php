@@ -28,7 +28,7 @@
                                 <label for="location" class="form-label">Service Location</label>
                                 <input type="text" name="location" id="location"
                                     class="form-control"
-                                    placeholder="e.g. DHA Phase 6, Karachi" value="{{ old('location') }}">
+                                    placeholder="Enter Location" value="{{ old('location') }}">
                             </div>
 
                             <div class="d-grid">
