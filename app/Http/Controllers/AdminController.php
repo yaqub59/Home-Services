@@ -101,8 +101,8 @@ class AdminController extends Controller
     public function Users(Request $request)
     {
         if ($request->ajax()) {
-            $users = User::select(['id', 'name', 'email', 'image', 'type', 'status', 'created_at'])
-            ->orderBy('name', 'asc')
+            $users = User::select(['id', 'name', 'email', 'image', 'phone_no', 'cnic', 'type', 'status', 'created_at'])
+                ->orderBy('name', 'asc')
                 ->get();
             return DataTables::of($users)
                 ->addColumn('image', function ($user) {
@@ -228,6 +228,8 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:6',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'phone_no' => ['required', 'regex:/^\+92[3][0-9]{9}$/'],  
+            'cnic' => ['required', 'regex:/^\d{5}-\d{7}-\d{1}$/'],      
         ]);
 
         try {
@@ -245,6 +247,8 @@ class AdminController extends Controller
                 $user->password = Hash::make($request->password);
             }
             $user->image = $imagePath;
+            $user->phone_no=$request->phone_no;
+            $user->cnic=$request->cnic;
             $user->save();
             return redirect()->route('admin.users')->with('success', 'User updated successfully.');
         } catch (\Exception $e) {

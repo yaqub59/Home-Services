@@ -3,7 +3,6 @@
 @section('title')
     Service Providers
 @endsection
-
 <div class="col-md-12 col-lg-8 col-xl-9">
     <div class="sort-tab develop-list-select">
         <div class="row align-items-center">
@@ -114,10 +113,6 @@
                             </div>
 
                         </div>
-                       
-
-
-
                         <div class="mt-auto">
                             <a href="{{ route('request.create', $providers->id) }}"
                                 class="btn btn-outline-primary w-100 mb-2">Send Request</a>

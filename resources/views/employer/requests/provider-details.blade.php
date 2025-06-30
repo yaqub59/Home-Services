@@ -19,21 +19,12 @@
                     <div class="col-lg-8 col-md-12">
                         <div class="company-detail-block pt-0">
                             <div class="company-detail">
-
-
                                 <div class="company-detail-image">
                                     @php
-                                        $image = $serviceProvider->image;
-                                        $imageUrl = asset('images/employer/' . $image);
-                                        $default = asset('assets/img/default-user.png');
+                                        $imagePath = 'images/avatar/' . ($serviceProvider->image ?? '');
                                     @endphp
-
-                                    <img src="{{ $image ? $imageUrl : $default }}"
-                                        onerror="this.onerror=null; this.src='{{ $default }}';"
-                                        class="img-fluid rounded-circle border" alt="{{ $serviceProvider->name }}">
-
-
-                                   
+                                    <img src="{{ asset(File::exists(public_path($imagePath)) ? $imagePath : 'images/default.png') }}"
+                                        alt="User Image" class="img-fluid rounded-circle border" width="150">
 
                                 </div>
                                 <div class="company-title">
@@ -45,7 +36,7 @@
                             <div class="company-address">
                                 <ul>
                                     <li>
-                                        <i class="feather-map-pin"></i>{{ $serviceProvider->location ?? 'Pakistan'}}
+                                        <i class="feather-map-pin"></i>{{ $serviceProvider->location ?? 'Pakistan' }}
                                     </li>
                                     <li>
                                         <i
@@ -102,8 +93,7 @@
                                         <div class="experience-set-img">
                                             {{-- You might want to display a certificate-specific icon/image if available,
                          otherwise keep the default report.png --}}
-                                            <img src="{{ asset('assets/img/icon/report.png') }}"
-                                                alt="Certificate Icon">
+                                            <img src="{{ asset('assets/img/icon/report.png') }}" alt="Certificate Icon">
                                         </div>
                                         <div class="experience-set-content">
                                             <h5>
@@ -150,7 +140,7 @@
                                 <ul class="buget-profiles">
                                     <li>
                                         <h6><i class="feather-map-pin me-2"></i>Location</h6>
-                                        <h5>{{ $serviceProvider->location }}</h5>
+                                        <h5>{{ $serviceProvider->location ?? 'Pakistan' }}</h5>
                                     </li>
                                     <li>
                                         <h6><i class="feather-mail me-2"></i>Mail</h6>

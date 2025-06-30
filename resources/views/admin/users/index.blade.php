@@ -20,6 +20,8 @@
                                     <th>Image</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Phone No</th>
+                                    <th>CNIC</th>
                                     <th>Type</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -58,6 +60,22 @@
                     {
                         data: 'email',
                         name: 'email'
+                    },
+                    {
+                        data: 'phone_no',
+                        name: 'phone_no',
+                        render: function(data) {
+                            return data ? data :
+                                '<span class="badge bg-secondary">Not Provided</span>';
+                        }
+                    },
+                    {
+                        data: 'cnic',
+                        name: 'cnic',
+                        render: function(data) {
+                            return data ? data :
+                                '<span class="badge bg-secondary">Not Provided</span>';
+                        }
                     },
                     {
                         data: 'type',

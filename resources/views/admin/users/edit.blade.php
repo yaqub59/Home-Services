@@ -62,6 +62,22 @@
                                                 class="img-fluid border rounded shadow" style="max-height: 100px;">
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="phone_no" class="form-label">Phone No</label>
+                                            <input type="text" name="phone_no" id="phone_no" class="form-control"
+                                                value="{{ old('phone_no', $user->phone_no ?? 'Not Provided') }}"
+                                                placeholder="+923001234567" required>
+                                        </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <label for="cnic" class="form-label">CNIC</label>
+                                            <input type="text" name="cnic" id="cnic" class="form-control"
+                                                value="{{ old('cnic', $user->cnic ?? 'Not Provided') }}"
+                                                placeholder="12345-1234567-1" required>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <button class="btn btn-primary" type="submit">Update</button>
                             </form>
@@ -91,6 +107,13 @@
                 preview.src = "{{ asset('images/default.png') }}";
                 preview.classList.remove('d-none');
             }
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#phone_no').inputmask('+929999999999');
+            $('#cnic').inputmask('99999-9999999-9');
         });
     </script>
 @endsection
