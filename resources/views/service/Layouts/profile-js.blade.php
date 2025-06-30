@@ -1,78 +1,77 @@
+<script>
+    $(document).ready(function() {
+        //console.log("jQuery is ready");
+        //Remove Services
+        $(document).on('click', '.remove-service', function() {
+            //alert("Clicked remove!");
+            let row = $(this).closest('.service-row');
+            let id = row.find('input[name*="[id]"]').val();
 
-    <script>
-        $(document).ready(function() {
-            //console.log("jQuery is ready");
-            //Remove Services
-            $(document).on('click', '.remove-service', function() {
-                //alert("Clicked remove!");
-                let row = $(this).closest('.service-row');
-                let id = row.find('input[name*="[id]"]').val();
+            //console.log("Removing ID:", id);
 
-                //console.log("Removing ID:", id);
-
-                if (id) {
-                    $('#deleted-inputs-container').append(
-                        `<input type="hidden" name="deleted_services[]" value="${id}">`
-                    );
-                }
-
-                row.remove();
-            });
-            //Remove Certificates
-            $(document).on('click', '.remove-certificate', function() {
-                //alert("Clicked remove!");
-                let row = $(this).closest('.certificate-row');
-                let id = row.find('input[name*="[id]"]').val();
-                //console.log("Removing ID:", id);
-                if (id) {
-                    $('#deleted-certificates-container').append(
-                        `<input type="hidden" name="deleted_certificates[]" value="${id}">`
-                    );
-                }
-
-                row.remove();
-            });
-            // Remove Expertises
-            $(document).on('click', '.remove-exp', function() {
-                let row = $(this).closest('.expertise-row');
-                let id = row.find('input[type="hidden"][name*="[id]"]').val();
-                let tagInput = row.find('input[type="text"][name*="[tags]"]');
-
-                console.log("Clicked remove! ID:", id);
-
-                // If ID exists (i.e., it's an existing expertise), mark it for deletion
-                if (id) {
-                    $('#deleted-expertises-container').append(
-                        `<input type="hidden" name="deleted_expertises[]" value="${id}">`
-                    );
-                }
-
-                // Reset input fields to avoid saving wrong values
-                tagInput.val(''); // clear tag name
-                row.find('input[type="hidden"][name*="[id]"]').val(
-                    ''); // clear id to prevent storing in tags
-
-                // Then remove the row
-                row.remove();
-            });
-        });
-    </script>
-    <!-- Then your full add-certificate-btn logic -->
-    <script>
-        const institutes = @json(getAllInstitutes()->pluck('name'));
-        let certificateIndex = {{ $index ?? 1 }};
-
-        document.getElementById('add-certificate-btn').addEventListener('click', function() {
-            const wrapper = document.getElementById('certificates-wrapper');
-
-            // ✅ Remove empty message if present
-            const emptyMessage = document.getElementById('empty-certificate-message');
-            if (emptyMessage) {
-                emptyMessage.remove();
+            if (id) {
+                $('#deleted-inputs-container').append(
+                    `<input type="hidden" name="deleted_services[]" value="${id}">`
+                );
             }
 
-            // ✅ Append new certificate row
-            let html = `
+            row.remove();
+        });
+        //Remove Certificates
+        $(document).on('click', '.remove-certificate', function() {
+            //alert("Clicked remove!");
+            let row = $(this).closest('.certificate-row');
+            let id = row.find('input[name*="[id]"]').val();
+            //console.log("Removing ID:", id);
+            if (id) {
+                $('#deleted-certificates-container').append(
+                    `<input type="hidden" name="deleted_certificates[]" value="${id}">`
+                );
+            }
+
+            row.remove();
+        });
+        // Remove Expertises
+        $(document).on('click', '.remove-exp', function() {
+            let row = $(this).closest('.expertise-row');
+            let id = row.find('input[type="hidden"][name*="[id]"]').val();
+            let tagInput = row.find('input[type="text"][name*="[tags]"]');
+
+            console.log("Clicked remove! ID:", id);
+
+            // If ID exists (i.e., it's an existing expertise), mark it for deletion
+            if (id) {
+                $('#deleted-expertises-container').append(
+                    `<input type="hidden" name="deleted_expertises[]" value="${id}">`
+                );
+            }
+
+            // Reset input fields to avoid saving wrong values
+            tagInput.val(''); // clear tag name
+            row.find('input[type="hidden"][name*="[id]"]').val(
+                ''); // clear id to prevent storing in tags
+
+            // Then remove the row
+            row.remove();
+        });
+    });
+</script>
+<!-- Then your full add-certificate-btn logic -->
+<script>
+    const institutes = @json(getAllInstitutes()->pluck('name'));
+    let certificateIndex = {{ $index ?? 1 }};
+
+    document.getElementById('add-certificate-btn').addEventListener('click', function() {
+        const wrapper = document.getElementById('certificates-wrapper');
+
+        // ✅ Remove empty message if present
+        const emptyMessage = document.getElementById('empty-certificate-message');
+        if (emptyMessage) {
+            emptyMessage.remove();
+        }
+
+        // ✅ Append new certificate row
+        let html = `
         <div class="form-row align-items-center skill-cont certificate-row mb-3">
             <div class="input-block col-lg-2">
                 <label class="form-label">Name</label>
@@ -83,11 +82,11 @@
                 <select name="certificates[${certificateIndex}][institute]" class="form-control">
                     <option value="">Select institute</option>`;
 
-            institutes.forEach(function(institute) {
-                html += `<option value="${institute}">${institute}</option>`;
-            });
+        institutes.forEach(function(institute) {
+            html += `<option value="${institute}">${institute}</option>`;
+        });
 
-            html += `
+        html += `
                 </select>
             </div>
             <div class="input-block col-lg-2">
@@ -109,7 +108,41 @@
             </div>
         </div>`;
 
-            wrapper.insertAdjacentHTML('beforeend', html);
-            certificateIndex++;
-        });
-    </script>
+        wrapper.insertAdjacentHTML('beforeend', html);
+        certificateIndex++;
+    });
+</script>
+{{-- Your Blade view content --}}
+
+<script>
+    let serviceIndex = {{ auth()->user()->services->count() > 0 ? auth()->user()->services->count() : 1 }};
+    $('#add-service-btn').click(function() {
+        let html = `
+    <div class="form-row align-items-center skill-cont service-row mb-3">
+        <div class="input-block col-lg-4">
+            <label class="form-label">Select Service</label>
+            <select name="services[${serviceIndex}][name]" class="form-control">
+                @foreach ($all_services as $option)
+                    <option value="{{ $option->name }}">{{ $option->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="input-block col-lg-4">
+            <label class="form-label">Custom Description</label>
+            <input type="text" name="services[${serviceIndex}][description]" class="form-control"  placeholder="Description">
+        </div>
+
+        <div class="input-block col-lg-3">
+            <label class="form-label">Upload Image</label>
+            <input type="file" name="services[${serviceIndex}][image]" class="form-control">
+        </div>
+
+        <div class="input-block col-lg-1 d-flex align-items-end">
+            <a href="javascript:void(0);" class="btn remove-service"><i class="far fa-trash-alt"></i></a>
+        </div>
+    </div>`;
+        $('#services-wrapper').append(html);
+        serviceIndex++;
+    });
+</script>

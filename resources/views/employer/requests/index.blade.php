@@ -16,7 +16,7 @@
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 d-flex justify-content-sm-end">
                 <form class="d-flex" role="search" method="GET" action="{{ route('search.providers') }}">
-                    <input class="form-control me-2" type="search" name="query" placeholder="Search by Expertise"
+                    <input class="form-control me-2" type="search" name="query" placeholder="Search by Service"
                         value="{{ request('query') }}">
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
@@ -88,16 +88,17 @@
                                     <span class="text-secondary">({{ $totalReviews }} reviews)</span>
                                 </small>
                             </div>
-                            <p class="text-muted text-center mb-1">Expertise</p>
+                            <p class="text-muted text-center mb-1">Services</p>
                             <div class="d-flex flex-wrap justify-content-center gap-1 mb-3">
-                                @if ($providers->expertises->isNotEmpty())
-                                    @foreach ($providers->expertises as $expertise)
-                                        <span class="badge bg-primary">{{ $expertise->tags }}</span>
+                                @if ($providers->services->isNotEmpty())
+                                    @foreach ($providers->services as $service)
+                                        <span class="badge bg-primary">{{ $service->name }}</span>
                                     @endforeach
                                 @else
                                     <span class="badge bg-secondary">Not updated</span>
                                 @endif
                             </div>
+
                         </div>
                         <div class="mt-auto">
                             <a href="{{ route('request.create', $providers->id) }}"

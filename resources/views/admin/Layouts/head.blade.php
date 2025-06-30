@@ -31,5 +31,5 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="{{ asset('admin-assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/plugins/izitoast/css/iziToast.min.css') }}">
-    
+    @yield('css')
 </head>

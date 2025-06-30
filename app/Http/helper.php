@@ -2,6 +2,7 @@
 
 use App\Models\Setting;
 use App\Models\Institute;
+use App\Models\Services;
 
 function FileUpload($file, $path)
 {
@@ -25,5 +26,10 @@ if (!function_exists('Setting')) {
 function getAllInstitutes()
 {
     return Institute::all();
+}
+//
+function getAllServices()
+{
+    return Services::all();
 }
 

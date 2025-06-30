@@ -19,18 +19,33 @@
                     <div class="col-lg-8 col-md-12">
                         <div class="company-detail-block pt-0">
                             <div class="company-detail">
+
+
                                 <div class="company-detail-image">
-                                    <img src="{{ asset('assets/img/img-04.jpg') }}" class="img-fluid" alt="logo">
+                                    @php
+                                        $image = $serviceProvider->image;
+                                        $imageUrl = asset('images/employer/' . $image);
+                                        $default = asset('assets/img/default-user.png');
+                                    @endphp
+
+                                    <img src="{{ $image ? $imageUrl : $default }}"
+                                        onerror="this.onerror=null; this.src='{{ $default }}';"
+                                        class="img-fluid rounded-circle border" alt="{{ $serviceProvider->name }}">
+
+
+                                   
+
                                 </div>
                                 <div class="company-title">
                                     <h4>{{ $serviceProvider->name }}</h4>
-                                    <p>{{ $serviceProvider->job_title }}</p>
+                                    <p>{{ $serviceProvider->job_title ?? 'No title' }}</p>
                                 </div>
                             </div>
+
                             <div class="company-address">
                                 <ul>
                                     <li>
-                                        <i class="feather-map-pin"></i>{{ $serviceProvider->location }}
+                                        <i class="feather-map-pin"></i>{{ $serviceProvider->location ?? 'Pakistan'}}
                                     </li>
                                     <li>
                                         <i
@@ -46,7 +61,7 @@
                         <div class="company-detail-block company-description">
                             <h4 class="company-detail-title">Services</h4>
 
-                            @if ($serviceProvider->services->isNotEmpty())
+                            @if ($serviceProvider->user_services->isNotEmpty())
                                 @foreach ($serviceProvider->services as $service)
                                     <div class="mb-4 p-3" style="border: 1px solid #ddd; border-radius: 10px;">
 
@@ -87,7 +102,8 @@
                                         <div class="experience-set-img">
                                             {{-- You might want to display a certificate-specific icon/image if available,
                          otherwise keep the default report.png --}}
-                                            <img src="{{ asset('assets/img/icon/report.png') }}" alt="Certificate Icon">
+                                            <img src="{{ asset('assets/img/icon/report.png') }}"
+                                                alt="Certificate Icon">
                                         </div>
                                         <div class="experience-set-content">
                                             <h5>

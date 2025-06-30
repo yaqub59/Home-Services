@@ -17,6 +17,11 @@
                         <i data-feather="book"></i> <span>Institute</span>
                     </a>
                 </li>
+                <li class="{{ Route::currentRouteName() == 'admin.services' ? 'active' : '' }}">
+                    <a href="{{ route('admin.services') }}">
+                        <i data-feather="briefcase"></i> <span>Services</span>
+                    </a>
+                </li>
                 <li class="{{ Route::currentRouteName() == 'admin.setting' ? 'active' : '' }}">
                     <a href="{{ route('admin.setting') }}">
                         <i data-feather="settings"></i> <span>Settings</span>

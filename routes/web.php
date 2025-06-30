@@ -7,6 +7,7 @@ use App\Http\Controllers\ServiceProvider;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\InstituteController;
 use App\Http\Controllers\RequestsController;
+use App\Http\Controllers\ServicesController;
 Auth::routes();
 
 Route::get('/', function () {
@@ -59,6 +60,15 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/institute/edit/{id}', [InstituteController::class, 'edit'])->name('admin.institute.edit');
     Route::post('/institute/update/{id}', [InstituteController::class, 'update'])->name('admin.institute.update');
     Route::post('/institute/delete/{id}', [InstituteController::class, 'destroy'])->name('admin.institute.destroy');
+});
+//Services Routes
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/services', [ServicesController::class, 'index'])->name('admin.services');
+    Route::get('/services/create', [ServicesController::class, 'create'])->name('admin.services-create');
+    Route::post('/services/store', [ServicesController::class, 'store'])->name('admin.services-store');
+    Route::get('/services/edit/{id}', [ServicesController::class, 'edit'])->name('admin.services.edit');
+    Route::put('/services/update/{id}', [ServicesController::class, 'update'])->name('admin.services.update');
+    Route::delete('/services/delete/{id}', [ServicesController::class, 'destroy'])->name('admin.services.destroy');
 });
 //Employer Sent Requests
 Route::middleware(['auth'])->prefix('home')->group(function () {

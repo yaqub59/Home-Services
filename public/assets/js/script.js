@@ -1478,34 +1478,34 @@ Version      : 1.0
 	}
 
 	// Add new service row on button click
-	$('#add-service-btn').click(function () {
-		var count = $('#services-wrapper .service-row').length;
+	// $('#add-service-btn').click(function () {
+	// 	var count = $('#services-wrapper .service-row').length;
 
-		var html = '';
-		html += '<div class="form-row align-items-center skill-cont service-row mb-3">';
-		html += '<div class="input-block col-lg-4">';
-		html += '<label class="form-label">Service Name</label>';
-		html += `<input type="text" name="services[${count}][name]" class="form-control" placeholder="Enter name">`;
-		html += '</div>';
+	// 	var html = '';
+	// 	html += '<div class="form-row align-items-center skill-cont service-row mb-3">';
+	// 	html += '<div class="input-block col-lg-4">';
+	// 	html += '<label class="form-label">Service Name</label>';
+	// 	html += `<input type="text" name="services[${count}][name]" class="form-control" placeholder="Enter name">`;
+	// 	html += '</div>';
 
-		html += '<div class="input-block col-lg-4">';
-		html += '<label class="form-label">Description</label>';
-		html += `<input type="text" name="services[${count}][description]" class="form-control" placeholder="Enter description">`;
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-4">';
+	// 	html += '<label class="form-label">Description</label>';
+	// 	html += `<input type="text" name="services[${count}][description]" class="form-control" placeholder="Enter description">`;
+	// 	html += '</div>';
 
-		html += '<div class="input-block col-lg-3">';
-		html += '<label class="form-label">Upload Image</label>';
-		html += `<input type="file" name="services[${count}][image]" class="form-control">`;
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-3">';
+	// 	html += '<label class="form-label">Upload Image</label>';
+	// 	html += `<input type="file" name="services[${count}][image]" class="form-control">`;
+	// 	html += '</div>';
 
-		html += '<div class="input-block col-lg-1 mb-0 d-flex align-items-end">';
-		html += '<a href="javascript:void(0);" class="btn trash-icon remove-service" title="Remove Service"><i class="far fa-trash-alt"></i></a>';
-		html += '</div>';
+	// 	html += '<div class="input-block col-lg-1 mb-0 d-flex align-items-end">';
+	// 	html += '<a href="javascript:void(0);" class="btn trash-icon remove-service" title="Remove Service"><i class="far fa-trash-alt"></i></a>';
+	// 	html += '</div>';
 
-		html += '</div>';
+	// 	html += '</div>';
 
-		$('#services-wrapper').append(html);
-	});
+	// 	$('#services-wrapper').append(html);
+	// });
 
 	// Remove service row and track deleted IDs
 

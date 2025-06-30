@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Requests;
 use App\Models\Reviews;
+use App\Models\Services;
 
 class ServiceProvider extends Controller
 {
@@ -17,10 +18,12 @@ class ServiceProvider extends Controller
     {
         $user = User::find(auth()->id());
         $user_relations = User::with(['services', 'certificates', 'expertises'])->findOrFail(auth()->id());
+        $all_services = Services::all();
         //dd($user_relations);
         return view('service.profile')
             ->with('user', $user)
-            ->with('user_relations', $user_relations);
+            ->with('user_relations', $user_relations)
+            ->with('all_services', $all_services);
     }
     /**
      * Show the application dashboard.
@@ -91,7 +94,6 @@ class ServiceProvider extends Controller
 
         try {
             DB::beginTransaction();
-
             $user = Auth::user();
 
             if ($request->hasFile('image')) {
@@ -99,39 +101,37 @@ class ServiceProvider extends Controller
                 $user->image = $filename;
             }
 
-            $user->update($request->only('name', 'email', 'job_title','location'));
+            $user->update($request->only('name', 'email', 'job_title', 'location'));
 
             // Get all deleted service IDs from hidden input (set via JS)
-            $deletedServiceIds = $request->input('deleted_services', []);
-            if (!empty($deletedServiceIds)) {
-                $user->services()->whereIn('id', $deletedServiceIds)->delete();
+            $deletedIds = $request->input('deleted_services', []);
+            if (!empty($deletedIds)) {
+                $user->services()->whereIn('id', $deletedIds)->delete();
             }
             // Proceed with update or create
             foreach ($request->services ?? [] as $index => $service) {
                 $imagePath = null;
 
-                // Get uploaded image dynamically
+                // Handle dynamic file upload input
                 $uploadedImage = $request->file("services.$index.image");
 
                 if ($uploadedImage && $uploadedImage->isValid()) {
                     $imagePath = FileUpload($uploadedImage, 'images/services');
                 }
 
+                // If service ID is present => update
                 if (!empty($service['id'])) {
-                    // Update existing service
-                    $existingService = $user->services()->find($service['id']);
-                    if ($existingService) {
-                        $existingService->name = $service['name'];
-                        $existingService->description = $service['description'] ?? null;
+                    $existing = $user->services()->find($service['id']);
 
-                        if ($imagePath) {
-                            $existingService->image = $imagePath;
-                        }
-
-                        $existingService->save();
+                    if ($existing) {
+                        $existing->update([
+                            'name' => $service['name'],
+                            'description' => $service['description'] ?? null,
+                            'image' => $imagePath ?? $existing->image, // Keep old image if not replaced
+                        ]);
                     }
                 } else {
-                    // Create new service
+                    // New service creation
                     $user->services()->create([
                         'name' => $service['name'],
                         'description' => $service['description'] ?? null,
@@ -176,10 +176,6 @@ class ServiceProvider extends Controller
                     ]);
                 }
             }
-
-
-
-
             // EXPERTISE TAGS
             $deletedExpIds = $request->input('deleted_expertises', []);
 
@@ -208,10 +204,6 @@ class ServiceProvider extends Controller
                     }
                 }
             }
-
-
-
-
             DB::commit();
             sleep(1);
             return back()->with('success', 'Profile updated successfully!');

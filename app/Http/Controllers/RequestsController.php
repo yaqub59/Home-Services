@@ -21,11 +21,11 @@ class RequestsController extends Controller
 
         $serviceProviders = User::where('type', 2)
             ->when($query, function ($q) use ($query) {
-                $q->whereHas('expertises', function ($subQuery) use ($query) {
-                    $subQuery->where('tags', 'like', '%' . $query . '%');
+                $q->whereHas('user_services', function ($subQuery) use ($query) {
+                    $subQuery->where('name', 'like', '%' . $query . '%');
                 });
             })
-            ->with(['services', 'expertises', 'certificates', 'reviews']) // eager loading
+            ->with(['user_services', 'expertises', 'certificates', 'reviews']) // eager loading
             ->get()
             ->map(function ($provider) {
                 $provider->average_rating = round($provider->reviews->avg('rating'), 1);
@@ -37,6 +37,7 @@ class RequestsController extends Controller
 
         return view('employer.requests.index', compact('serviceProviders', 'countproviders'));
     }
+
 
 
 
@@ -65,12 +66,12 @@ class RequestsController extends Controller
      */
     public function store(Request $request)
     {
-            $request->validate([
-                'service_provider_id' => 'required|exists:users,id',
-                'details' => 'required|string',
-                'location' => 'required',
-            ]);
-            try {
+        $request->validate([
+            'service_provider_id' => 'required|exists:users,id',
+            'details' => 'required|string',
+            'location' => 'required',
+        ]);
+        try {
             Requests::create([
                 'employer_id' => auth()->id(),
                 'service_provider_id' => $request->service_provider_id,
@@ -149,7 +150,8 @@ class RequestsController extends Controller
     public function ProviderDetails($id)
     {
         try {
-            $serviceProvider = User::with(['services', 'expertises', 'certificates'])->findOrFail($id);
+            $serviceProvider = User::with(['user_services', 'expertises', 'certificates'])->findOrFail($id);
+            //dd($serviceProvider);
             return view('employer.requests.provider-details')
                 ->with('serviceProvider', $serviceProvider);
         } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {

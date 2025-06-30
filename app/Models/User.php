@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\UserService;
 
 class User extends Authenticatable
 {
@@ -73,7 +74,7 @@ class User extends Authenticatable
      */
     public function services()
     {
-        return $this->hasMany(Services::class);  // services table mein user_id hona chahiye
+        return $this->hasMany(UserService::class, 'user_id', 'id');
     }
     public function certificates()
     {
@@ -91,5 +92,9 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(Reviews::class, 'reviewee_id');
+    }
+    public function user_services()
+    {
+        return $this->hasMany(UserService::class);
     }
 }

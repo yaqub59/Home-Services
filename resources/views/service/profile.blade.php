@@ -114,90 +114,100 @@
                                                 <div class="pro-body">
                                                     <!-- ✅ Container to hold hidden deleted inputs -->
                                                     <div id="deleted-inputs-container"> </div>
-                                                    <div id="services-wrapper"> @php $index = 0; @endphp
-                                                        @foreach (auth()->user()->services as $service)
-                                                            <div
-                                                                class="form-row align-items-center skill-cont service-row mb-3">
-                                                                <div class="input-block col-lg-4">
-                                                                    <label class="form-label">Service Name</label>
-                                                                    <input type="hidden"
-                                                                        name="services[{{ $index }}][id]"
-                                                                        value="{{ $service->id }}">
-                                                                    <input type="text"
-                                                                        name="services[{{ $index }}][name]"
-                                                                        value="{{ $service->name }}"
-                                                                        class="form-control" placeholder="Enter name">
-                                                                </div>
-
-                                                                <div class="input-block col-lg-4">
-                                                                    <label class="form-label">Description</label>
-                                                                    <input type="text"
-                                                                        name="services[{{ $index }}][description]"
-                                                                        value="{{ $service->description }}"
-                                                                        class="form-control"
-                                                                        placeholder="Enter description">
-                                                                </div>
-
-                                                                <div class="input-block col-lg-3">
-                                                                    <label class="form-label">Upload Image</label>
-                                                                    <input type="file"
-                                                                        name="services[{{ $index }}][image]"
-                                                                        class="form-control">
-                                                                    @if (!empty($service->image))
-                                                                        <img src="{{ asset('images/services/' . $service->image) }}"
-                                                                            onerror="this.src='{{ asset('images/placeholder.jpg') }}';"
-                                                                            alt="Service Image"
-                                                                            style="max-width: 100px; margin-top:5px;">
-                                                                    @endif
-                                                                </div>
+                                                    <div id="services-wrapper">
+                                                        @if (auth()->user()->services->count())
+                                                            @php $index = 0; @endphp
+                                                            @foreach (auth()->user()->services as $user_service)
+                                                                {{-- ✅ existing rows (same as your code above) --}}
                                                                 <div
-                                                                    class="input-block col-lg-1 mb-0 d-flex align-items-end">
-                                                                    <input type="hidden"
-                                                                        name="services[{{ $index }}][id]"
-                                                                        value="{{ $service->id }}">
-                                                                    <a href="javascript:void(0);"
-                                                                        class="btn remove-service">
-                                                                        <i class="far fa-trash-alt"></i>
-                                                                    </a>
+                                                                    class="form-row align-items-center skill-cont service-row mb-3">
+                                                                    <div class="input-block col-lg-4">
+                                                                        <label class="form-label">Select Service</label>
+                                                                        <select
+                                                                            name="services[{{ $index }}][name]"
+                                                                            class="form-control">
+                                                                            @foreach ($all_services as $admin_service)
+                                                                                <option
+                                                                                    value="{{ $admin_service->name }}"
+                                                                                    {{ $user_service->name == $admin_service->name ? 'selected' : '' }}>
+                                                                                    {{ $admin_service->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
 
+                                                                    <div class="input-block col-lg-4">
+                                                                        <label class="form-label">Custom
+                                                                            Description</label>
+                                                                        <input type="text"
+                                                                            name="services[{{ $index }}][description]"
+                                                                            value="{{ $user_service->description }}"
+                                                                            class="form-control">
+                                                                    </div>
+
+                                                                    <div class="input-block col-lg-3">
+                                                                        <label class="form-label">Upload Image</label>
+                                                                        <input type="file"
+                                                                            name="services[{{ $index }}][image]"
+                                                                            class="form-control">
+                                                                        @if (!empty($user_service->image))
+                                                                            <img src="{{ asset('images/services/' . $user_service->image) }}"
+                                                                                style="max-width: 100px; margin-top:5px;">
+                                                                        @endif
+                                                                    </div>
+
+                                                                    <div
+                                                                        class="input-block col-lg-1 d-flex align-items-end">
+                                                                        <input type="hidden"
+                                                                            name="services[{{ $index }}][id]"
+                                                                            value="{{ $user_service->id }}">
+                                                                        <a href="javascript:void(0);"
+                                                                            class="btn remove-service"><i
+                                                                                class="far fa-trash-alt"></i></a>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            @php $index++; @endphp
-                                                        @endforeach
-
-                                                        {{-- If no services exist, show empty row --}}
-                                                        @if (auth()->user()->services->isEmpty())
+                                                                @php $index++; @endphp
+                                                            @endforeach
+                                                        @else
+                                                            {{-- ❌ No existing services — display empty row --}}
                                                             <div
                                                                 class="form-row align-items-center skill-cont service-row mb-3">
                                                                 <div class="input-block col-lg-4">
-                                                                    <label class="form-label">Service Name</label>
-                                                                    <input type="text" name="services[0][name]"
-                                                                        class="form-control" placeholder="Enter name">
+                                                                    <label class="form-label">Select Service</label>
+                                                                    <select name="services[0][name]"
+                                                                        class="form-control">
+                                                                        @foreach ($all_services as $admin_service)
+                                                                            <option
+                                                                                value="{{ $admin_service->name }}">
+                                                                                {{ $admin_service->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
                                                                 </div>
+
                                                                 <div class="input-block col-lg-4">
-                                                                    <label class="form-label">Description</label>
+                                                                    <label class="form-label">Custom
+                                                                        Description</label>
                                                                     <input type="text"
                                                                         name="services[0][description]"
-                                                                        class="form-control"
-                                                                        placeholder="Enter description">
+                                                                        class="form-control" placeholder="Description">
                                                                 </div>
+
                                                                 <div class="input-block col-lg-3">
                                                                     <label class="form-label">Upload Image</label>
                                                                     <input type="file" name="services[0][image]"
                                                                         class="form-control">
                                                                 </div>
+
                                                                 <div
-                                                                    class="input-block col-lg-1 mb-0 d-flex align-items-end">
+                                                                    class="input-block col-lg-1 d-flex align-items-end">
                                                                     <a href="javascript:void(0);"
-                                                                        class="btn trash-icon remove-service"
-                                                                        title="Remove Service">
-                                                                        <i class="far fa-trash-alt"></i>
-                                                                    </a>
+                                                                        class="btn remove-service"><i
+                                                                            class="far fa-trash-alt"></i></a>
                                                                 </div>
                                                             </div>
                                                         @endif
-                                                    </div>
 
+                                                    </div>
                                                     <a href="javascript:void(0)" id="add-service-btn"
                                                         class="add-btn-form w-100 d-block text-end mt-2">
                                                         <i class="feather-plus-circle me-2"></i>Add New
