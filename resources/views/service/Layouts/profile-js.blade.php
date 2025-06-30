@@ -146,3 +146,27 @@
         serviceIndex++;
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.querySelector('input[name="phone_no"]');
+        phoneInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11); // allow only 11 digits
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#cnic').inputmask('99999-9999999-9'); // jQuery InputMask plugin required
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#phone_no').inputmask({
+            mask: "+929999999999",
+            placeholder: "+92__________",
+            showMaskOnHover: false,
+            showMaskOnFocus: true
+        });
+    });
+</script>

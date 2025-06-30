@@ -114,6 +114,10 @@
                             </div>
 
                         </div>
+                       
+
+
+
                         <div class="mt-auto">
                             <a href="{{ route('request.create', $providers->id) }}"
                                 class="btn btn-outline-primary w-100 mb-2">Send Request</a>

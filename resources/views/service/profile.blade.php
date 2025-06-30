@@ -72,14 +72,14 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-3 col-md-12">
+                                                <div class="col-lg-4 col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Name</label>
                                                         <input type="text" name="name"
                                                             value="{{ Auth::user()->name }}" class="form-control">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-12">
+                                                <div class="col-lg-4 col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Email Address</label>
                                                         <input type="text" name="email"
@@ -87,18 +87,37 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-3 col-md-12">
+                                                <div class="col-lg-4 col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Your Job Title</label>
                                                         <input type="text" name="job_title"
-                                                            value="{{ Auth::user()->job_title }}" class="form-control">
+                                                            value="{{ Auth::user()->job_title }}"
+                                                            class="form-control"placeholder="{{ empty(Auth::user()->job_title) ? 'Enter your Job Title' : '' }}">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3 col-md-12">
+                                                <div class="col-lg-4 col-md-12">
                                                     <div class="mb-3">
                                                         <label class="form-label">Location</label>
                                                         <input type="text" name="location"
-                                                            value="{{ Auth::user()->location }}" class="form-control">
+                                                            value="{{ Auth::user()->location }}"
+                                                            class="form-control"placeholder="{{ empty(Auth::user()->location) ? 'Enter your Loaction' : '' }}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Phone No </label>
+                                                        <input type="text" name="phone_no" class="form-control"
+                                                            id="phone_no" placeholder="+92XXXXXXXXXX"
+                                                            value="{{ old('phone_no', Auth::user()->phone_no) }}"
+                                                            maxlength="13">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-12">
+                                                    <div class="mb-3">
+                                                        <label class="form-label">CNIC</label>
+                                                        <input type="text" name="cnic" class="form-control"
+                                                            id="cnic" placeholder="12345-1234567-1"
+                                                            value="{{ old('cnic', Auth::user()->cnic) }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -122,7 +141,8 @@
                                                                 <div
                                                                     class="form-row align-items-center skill-cont service-row mb-3">
                                                                     <div class="input-block col-lg-4">
-                                                                        <label class="form-label">Select Service</label>
+                                                                        <label class="form-label">Select
+                                                                            Service</label>
                                                                         <select
                                                                             name="services[{{ $index }}][name]"
                                                                             class="form-control">
@@ -189,7 +209,8 @@
                                                                         Description</label>
                                                                     <input type="text"
                                                                         name="services[0][description]"
-                                                                        class="form-control" placeholder="Description">
+                                                                        class="form-control"
+                                                                        placeholder="Description">
                                                                 </div>
 
                                                                 <div class="input-block col-lg-3">
@@ -284,7 +305,7 @@
                                                                     class="input-block col-lg-1 mb-0 d-flex align-items-end">
                                                                     <input type="hidden"
                                                                         name="certificates[{{ $index }}][id]"
-                                                                        value="{{ $certificate->id }}">
+                                                                        value="{{ $certificate['id'] ?? '' }}">
                                                                     <a href="javascript:void(0);"
                                                                         class="btn remove-certificate"
                                                                         title="Remove Certificate">

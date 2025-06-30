@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Requests;
 use App\Models\Reviews;
 use App\Models\Services;
+use Illuminate\Support\Str;
 
 class ServiceProvider extends Controller
 {
@@ -72,11 +73,24 @@ class ServiceProvider extends Controller
 
     public function updateProfile(Request $request)
     {
+
+        // Remove leading 0 if exists (e.g., 03001234567 → 3001234567)
+        $cleanPhone = ltrim($request->phone_no, '0');
+
+        // Add +92 if not already present
+        if (!Str::startsWith($cleanPhone, '+92')) {
+            $cleanPhone = '+92' . $cleanPhone;
+        }
+
+        // Update request input with cleaned phone
+        $request->merge(['phone_no' => $cleanPhone]);
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
             'job_title' => 'nullable|string',
             'location' => 'nullable|string',
+            'phone_no' => ['required', 'regex:/^\+92[3][0-9]{9}$/'],
+            'cnic' => 'required|regex:/^\d{5}-\d{7}-\d{1}$/',
             'image' => 'nullable|image|max:2048',
 
             'services.*.name' => 'required|string',
@@ -101,7 +115,7 @@ class ServiceProvider extends Controller
                 $user->image = $filename;
             }
 
-            $user->update($request->only('name', 'email', 'job_title', 'location'));
+            $user->update($request->only('name', 'email', 'job_title', 'location', 'cnic', 'phone_no'));
 
             // Get all deleted service IDs from hidden input (set via JS)
             $deletedIds = $request->input('deleted_services', []);
@@ -208,6 +222,8 @@ class ServiceProvider extends Controller
             sleep(1);
             return back()->with('success', 'Profile updated successfully!');
         } catch (\Exception $e) {
+            // DB::rollBack();
+            // dd($e->getMessage());
             DB::rollBack();
             Log::error('Profile update error: ' . $e->getMessage());
 

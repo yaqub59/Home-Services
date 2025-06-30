@@ -29,6 +29,8 @@ class User extends Authenticatable
         'status',
         'job_title',
         'location',
+        'cnic',
+        'phone_no',
 
     ];
 
