@@ -112,8 +112,12 @@
             </div>
         @empty
             <div class="col-12">
-                <div class="alert alert-warning text-center">
-                    No service providers found.
+                <div class="alert alert-light border text-center shadow-sm py-4">
+                    <div class="d-flex flex-column align-items-center">
+                        <i class="fas fa-user-slash fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted mb-1">No Service Providers Found</h5>
+                        <p class="text-muted">Please select a different category to see available service providers.</p>
+                    </div>
                 </div>
             </div>
         @endforelse

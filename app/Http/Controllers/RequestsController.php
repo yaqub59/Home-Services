@@ -18,14 +18,22 @@ class RequestsController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('query');
+        $serviceId = $request->input('service_id');
 
-        $serviceProviders = User::where('type', 2)
+        // Get service name from ID (for filtering)
+        $selectedService = null;
+        if ($serviceId) {
+            $selectedService = \App\Models\Services::find($serviceId);
+            $query = $selectedService ? $selectedService->name : null;
+        }
+
+        $serviceProviders = \App\Models\User::where('type', 2)
             ->when($query, function ($q) use ($query) {
                 $q->whereHas('user_services', function ($subQuery) use ($query) {
                     $subQuery->where('name', 'like', '%' . $query . '%');
                 });
             })
-            ->with(['user_services', 'expertises', 'certificates', 'reviews']) // eager loading
+            ->with(['user_services', 'expertises', 'certificates', 'reviews'])
             ->get()
             ->map(function ($provider) {
                 $provider->average_rating = round($provider->reviews->avg('rating'), 1);
@@ -35,11 +43,8 @@ class RequestsController extends Controller
 
         $countproviders = $serviceProviders->count();
 
-        return view('employer.requests.index', compact('serviceProviders', 'countproviders'));
+        return view('employer.requests.index', compact('serviceProviders', 'countproviders', 'selectedService'));
     }
-
-
-
 
     /**
      * Show the form for creating a new resource.

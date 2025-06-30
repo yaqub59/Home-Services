@@ -212,8 +212,15 @@
                          <div class="col-lg-3 col-md-6 col-sm-12">
                              <div class="card service-card h-100 text-center shadow-sm border-0">
                                  <div class="card-body">
-                                     <a href="{{ auth()->check() ? route('request.index') : route('login') }}"
-                                         class="text-decoration-none text-dark">
+                                     @php
+                                         $serviceUrl = auth()->check()
+                                             ? route('request.index', ['service_id' => $service->id])
+                                             : route('login', [
+                                                 'redirect' => route('request.index', ['service_id' => $service->id]),
+                                             ]);
+                                     @endphp
+
+                                     <a href="{{ $serviceUrl }}" class="text-decoration-none text-dark">
                                          <div class="service-img-wrapper mx-auto mb-3">
                                              <img src="{{ asset('images/admin/services/' . ($service->image ?? 'default-icon.svg')) }}"
                                                  alt="{{ $service->name }}" class="rounded-circle img-fluid">
@@ -228,6 +235,7 @@
                          </div>
                      @endforeach
                  </div>
+
 
 
 
