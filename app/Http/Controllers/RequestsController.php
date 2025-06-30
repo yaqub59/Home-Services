@@ -43,7 +43,7 @@ class RequestsController extends Controller
 
         $countproviders = $serviceProviders->count();
 
-        return view('employer.requests.index', compact('serviceProviders', 'countproviders', 'selectedService'));
+        return view('employer.requests.index', compact('serviceProviders', 'countproviders', 'selectedService','query'));
     }
 
     /**

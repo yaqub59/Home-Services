@@ -8,11 +8,25 @@
     <div class="sort-tab develop-list-select">
         <div class="row align-items-center">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                <div class="d-flex align-items-center">
-                    <div class="freelance-view">
-                        <h4>Found {{ $countproviders }} Results</h4>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+                        <div class="freelance-view">
+                            <h4 class="mb-0">
+                                <i class="feather-users text-primary me-1"></i>
+                                Found <span class="text-primary">{{ $countproviders }}</span> Results
+                            </h4>
+                        </div>
+
+                        {{-- ✅ Active query display --}}
+                        @if ($query)
+                            <span class="badge bg-light text-dark border rounded-pill px-3 py-2 shadow-sm">
+                                <i class="feather-filter me-1 text-primary"></i>
+                                Filtered by: <strong>{{ $query }}</strong>
+                            </span>
+                        @endif
                     </div>
                 </div>
+
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 d-flex justify-content-sm-end">
                 <form class="d-flex" role="search" method="GET" action="{{ route('search.providers') }}">
