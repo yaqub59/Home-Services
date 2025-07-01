@@ -22,9 +22,13 @@
                     <div class="align-items-center justify-content-center">
                         <div class="login-right">
                             <div class="login-header text-center">
-                                <a href="index.html"><img src="{{ asset('images/settings/' . Setting()->site_logo) }}"
-                                        height="100" width="100" alt="logo" class="img-fluid"></a>
+                                <a href="javascript:void(0);">
+                                    <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" alt="logo"
+                                        height="100" width="100"
+                                        class="img-fluid rounded-circle shadow-sm p-1 border border-light">
+                                </a>
                             </div>
+
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
                                 <div class="input-block">

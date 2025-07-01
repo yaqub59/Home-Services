@@ -19,9 +19,11 @@
                     <div class="align-items-center justify-content-center">
                         <div class="login-right">
                             <div class="login-header text-center">
-                                <a href="javascript:void(0);"><img
-                                        src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="70"
-                                        width="70"alt="logo" class="img-fluid"></a>
+                                <a href="javascript:void(0);">
+                                    <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" alt="logo"
+                                        height="100" width="100"
+                                        class="img-fluid rounded-circle shadow-sm p-1 border border-light">
+                                </a>
                             </div>
                             <nav class="user-tabs mb-4">
                                 <ul role="tablist" class="nav nav-pills nav-justified w-100">
@@ -30,8 +32,8 @@
                                             class="nav-link active text-center">Service Provider</a>
                                     </li>
                                     <li class="nav-item w-50">
-                                        <a href="#company" data-bs-toggle="tab"
-                                            class="nav-link text-center">Service Consumer</a>
+                                        <a href="#company" data-bs-toggle="tab" class="nav-link text-center">Service
+                                            Consumer</a>
                                     </li>
                                 </ul>
                             </nav>

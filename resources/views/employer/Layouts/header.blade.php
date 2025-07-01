@@ -9,9 +9,12 @@
                         <span></span>
                     </span>
                 </a>
-                <a href="javascript:void(0);" class="navbar-brand logo">
-                    <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="50" width="50"
-                        class="img-fluid" alt="Logo">
+                <a href="javascript:void(0);" class="navbar-brand logo d-flex align-items-center">
+                    <div class="p-2 rounded-circle shadow-sm"
+                        style="background-color: #f1f5f9; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;">
+                        <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="60" width="60"
+                            class="img-fluid rounded-circle" alt="Logo">
+                    </div>
                 </a>
             </div>
             <div class="main-menu-wrapper">

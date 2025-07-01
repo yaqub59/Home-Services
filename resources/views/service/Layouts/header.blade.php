@@ -9,10 +9,14 @@
                         <span></span>
                     </span>
                 </a>
-                <a href="javascript:void(0);" class="navbar-brand logo">
-                    <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="70" width="70"
-                        class="img-fluid" alt="Logo">
+                <a href="javascript:void(0);" class="navbar-brand logo d-flex align-items-center">
+                    <div class="p-2 rounded-circle shadow-sm"
+                        style="background-color: #f1f5f9; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;">
+                        <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="60" width="60"
+                            class="img-fluid rounded-circle" alt="Logo">
+                    </div>
                 </a>
+
             </div>
             <div class="main-menu-wrapper">
                 <div class="menu-header">
@@ -26,8 +30,8 @@
                 </div>
 
             </div>
-            <ul class="nav header-navbar-rht">        
-            <li class="nav-item dropdown account-item">
+            <ul class="nav header-navbar-rht">
+                <li class="nav-item dropdown account-item">
                     <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
                             <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" alt="Img">

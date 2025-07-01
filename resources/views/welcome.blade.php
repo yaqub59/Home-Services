@@ -169,16 +169,14 @@
              pointer-events: none;
          }
 
-         .nav-link:hover {
-             background-color: #e0f2fe;
-             color: #0c4a6e !important;
-             transform: scale(1.05);
+         .category-scroll a:hover {
+             background-color: #0d6efd !important;
+             color: white !important;
          }
 
-         .active-category {
-             background-color: #3b82f6 !important;
-             color: #fff !important;
-             font-weight: bold;
+         .navbar-brand .rounded-circle:hover {
+             box-shadow: 0 0 0 3px #cfe2ff;
+             transition: all 0.3s ease-in-out;
          }
      </style>
 
@@ -226,31 +224,38 @@
                                  <span></span>
                              </span>
                          </a>
-                         <a href="{{ url('/') }}" class="navbar-brand">
-                             <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="50"
-                                 width="50" class="img-fluid rounded-circle" alt="Logo">
+                         <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center">
+                             <div class="p-2 rounded-circle shadow-sm"
+                                 style="background-color: #f1f5f9; width: 54px; height: 54px; display: flex; justify-content: center; align-items: center;">
+                                 <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="40"
+                                     width="40" class="img-fluid rounded-circle" alt="Logo">
+                             </div>
                          </a>
-                     </div>
 
-                     <!-- 🔸 Center: Scrollable Service Pills -->
+                     </div>
                      <div class="category-scroll d-none d-lg-flex flex-grow-1 mx-3 gap-2 overflow-auto py-2 px-2 justify-content-center"
-                         style="scroll-snap-type: x mandatory; white-space: nowrap;">
+                         style="scroll-snap-type: x mandatory; white-space: nowrap; scrollbar-width: thin; background: transparent;">
                          @php $services = getAllServices()->take(10); @endphp
                          @foreach ($services as $service)
                              <a href="{{ auth()->check() ? route('request.index', ['service_id' => $service->id]) : route('login') }}"
-                                 class="px-3 py-1 rounded-pill text-nowrap small fw-semibold text-white"
-                                 style="background: linear-gradient(to right, #3b82f6, #6366f1); scroll-snap-align: center;">
+                                 class="text-decoration-none text-dark fw-medium d-inline-flex align-items-center rounded-pill px-2 py-1 me-1"
+                                 style="scroll-snap-align: start; min-width: max-content; font-size: 0.85rem; transition: all 0.3s ease;">
+                                 <i class="bi bi-gear me-1" style="font-size: 0.9rem;"></i>
                                  {{ $service->name }}
                              </a>
                          @endforeach
                      </div>
 
+
+
+
+
                      <!-- 🔸 Right: Auth Buttons -->
                      <ul class="nav header-navbar-rht d-flex align-items-center gap-2 ms-auto">
                          <li>
                              <a href="{{ route('register') }}"
-                                 class="btn btn-outline-primary btn-sm rounded-pill px-4 py-2 d-flex align-items-center"
-                                 style="min-width: 110px;">
+                                 class="btn btn-sm rounded-pill px-3 py-2 d-flex align-items-center text-primary border-0"
+                                 style="background: transparent; min-width: 100px;">
                                  <img src="{{ asset('assets/img/icon/users.svg') }}" class="me-2" width="16"
                                      alt="icon">
                                  Register
@@ -258,8 +263,8 @@
                          </li>
                          <li>
                              <a href="{{ route('login') }}"
-                                 class="btn btn-primary btn-sm rounded-pill px-4 py-2 d-flex align-items-center"
-                                 style="min-width: 110px;">
+                                 class="btn btn-sm rounded-pill px-3 py-2 d-flex align-items-center text-primary border-0"
+                                 style="background: transparent; min-width: 100px;">
                                  <img src="{{ asset('assets/img/icon/lock.svg') }}" class="me-2" width="16"
                                      alt="icon">
                                  Login
@@ -267,9 +272,43 @@
                          </li>
                      </ul>
 
+
                  </nav>
              </div>
          </header>
+         {{-- Video --}}
+
+         <div class="position-relative overflow-hidden" style="height: 100vh;">
+
+             <!-- 🔹 Background Video -->
+             <video autoplay muted loop playsinline
+                 class="w-100 h-100 object-fit-cover position-absolute top-0 start-0 z-0">
+                 <source src="{{ asset('videos/home-banner.mp4') }}" type="video/mp4">
+                 Your browser does not support the video tag.
+             </video>
+
+             <!-- 🔹 Gradient Overlay -->
+             <div class="position-absolute top-0 start-0 w-100 h-100"
+                 style="background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)); z-index: 1;"></div>
+
+             <!-- 🔹 Content -->
+             <div class="position-relative z-2 h-100 d-flex justify-content-center align-items-center">
+                 <div class="text-center px-4 py-5 rounded-4 shadow-lg"
+                     style="backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.05); max-width: 700px;">
+
+                     <h1 class="display-4 fw-bold text-white mb-3">Welcome to Our Platform</h1>
+                     <p class="lead text-white-50 mb-4">
+                         Connecting homeowners with skilled, verified service professionals.
+                     </p>
+                     <a href="{{ route('register') }}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                         Get Started
+                     </a>
+
+                 </div>
+             </div>
+
+         </div>
+         {{-- End Video --}}
 
 
 
@@ -391,7 +430,7 @@
                      <div class="col-lg-5 d-flex">
                          <div class="aos w-100 d-flex align-items-center justify-content-center" data-aos="zoom-in"
                              data-aos-duration="1200">
-                             <img src="{{ asset('bannner/baner Image.png') }}"
+                             <img src="{{ asset('images/banner.webp') }}"
                                  class="img-fluid rounded-4 shadow h-100 w-100"
                                  style="object-fit: cover; max-height: 100%; min-height: 100%;" alt="banner image">
                          </div>
@@ -407,39 +446,7 @@
              </div>
          </section>
 
-         {{-- Video --}}
 
-         <div class="position-relative overflow-hidden" style="height: 100vh;">
-
-             <!-- 🔹 Background Video -->
-             <video autoplay muted loop playsinline
-                 class="w-100 h-100 object-fit-cover position-absolute top-0 start-0 z-0">
-                 <source src="{{ asset('videos/home-banner.mp4') }}" type="video/mp4">
-                 Your browser does not support the video tag.
-             </video>
-
-             <!-- 🔹 Gradient Overlay -->
-             <div class="position-absolute top-0 start-0 w-100 h-100"
-                 style="background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)); z-index: 1;"></div>
-
-             <!-- 🔹 Content -->
-             <div class="position-relative z-2 h-100 d-flex justify-content-center align-items-center">
-                 <div class="text-center px-4 py-5 rounded-4 shadow-lg"
-                     style="backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.05); max-width: 700px;">
-
-                     <h1 class="display-4 fw-bold text-white mb-3">Welcome to Our Platform</h1>
-                     <p class="lead text-white-50 mb-4">
-                         Connecting homeowners with skilled, verified service professionals.
-                     </p>
-                     <a href="{{ route('register') }}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
-                         Get Started
-                     </a>
-
-                 </div>
-             </div>
-
-         </div>
-         {{-- End Video --}}
          {{-- Banner Section --}}
          <section class="py-5 bg-white">
              <div class="container">
