@@ -120,6 +120,17 @@
                  opacity: 1;
              }
          }
+
+         .btn-gradient {
+             background: linear-gradient(135deg, #ff6a00, #ee0979);
+             border: none;
+             transition: all 0.3s ease;
+         }
+
+         .btn-gradient:hover {
+             box-shadow: 0 0 15px rgba(255, 106, 0, 0.5);
+             transform: translateY(-2px);
+         }
      </style>
 
  </head>
@@ -142,10 +153,9 @@
          <!-- Header -->
          <header class="header">
              <div class="container">
-                 <nav class="navbar navbar-expand-lg header-nav p-0">
-
-                     {{-- Mobile menu + Logo --}}
-                     <div class="navbar-header">
+                 <nav class="navbar navbar-expand-lg header-nav p-0 align-items-center">
+                     <!-- Mobile menu + Logo -->
+                     <div class="navbar-header d-flex align-items-center me-3">
                          <a id="mobile_btn" href="javascript:void(0);">
                              <span class="bar-icon">
                                  <span></span>
@@ -153,25 +163,17 @@
                                  <span></span>
                              </span>
                          </a>
-                         <a href="{{ url('/') }}" class="navbar-brand logo">
-                             <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="70"
-                                 width="70" class="img-fluid" alt="Logo">
+                         <a href="{{ url('/') }}" class="navbar-brand logo ms-2">
+                             <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="60"
+                                 width="60" class="img-fluid" alt="Logo">
                          </a>
                      </div>
 
-                     {{-- Main Menu --}}
-                     <div class="main-menu-wrapper">
-                         <div class="menu-header">
-                             <a href="{{ url('/') }}" class="menu-logo">
-                                 <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="70"
-                                     width="70" class="img-fluid" alt="Logo">
-                             </a>
-                         </div>
-                         <div class="service-nav-wrapper mb-3">
+                     <!-- Center Services Menu -->
+                     <div class="main-menu-wrapper flex-grow-1">
+                         <div class="d-flex justify-content-center">
                              <ul class="nav main-nav flex-nowrap overflow-auto" style="white-space: nowrap;">
-                                 @php
-                                     $services = getAllServices()->take(6);
-                                 @endphp
+                                 @php $services = getAllServices()->take(6); @endphp
                                  @foreach ($services as $service)
                                      <li class="nav-item">
                                          <a class="nav-link px-3 text-nowrap"
@@ -184,12 +186,12 @@
                          </div>
                      </div>
 
-                     {{-- Right Side (Login/Register) --}}
-                     <ul class="nav header-navbar-rht reg-head">
+                     <!-- Right: Login/Register -->
+                     <ul class="nav header-navbar-rht reg-head d-flex align-items-center ms-auto">
                          <li>
                              <a href="{{ route('register') }}" class="reg-btn">
-                                 <img src="{{ asset('assets/img/icon/users.svg') }}" class="me-1"
-                                     alt="img">Register
+                                 <img src="{{ asset('assets/img/icon/users.svg') }}" class="me-1" alt="img">
+                                 Register
                              </a>
                          </li>
                          <li>
@@ -199,23 +201,22 @@
                              </a>
                          </li>
                      </ul>
-
                  </nav>
              </div>
          </header>
+
 
          <!-- /Header -->
 
          <section class="section home-banner row-middle py-5 position-relative"
              style="background: linear-gradient(to right, #f8f9fa, #ffffff); overflow: hidden;">
              <div class="container">
-                 <div class="row align-items-center g-4 mt-4">
-                     <!-- Banner Text -->
-                     <!-- START: Equal Height Section -->
+                 <div class="row g-4 mt-4 align-items-stretch">
                      <!-- Banner Text (Left Side) -->
-                     <div class="col-lg-7">
-                         <div class="h-100 d-flex align-items-center">
-                             <div class="banner-content aos w-100" data-aos="fade-up" data-aos-duration="1200"
+                     <div class="col-lg-7 d-flex">
+                         <div class="d-flex align-items-stretch w-100">
+                             <div class="banner-content aos w-100 d-flex flex-column justify-content-center"
+                                 data-aos="fade-up" data-aos-duration="1200"
                                  style="backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.65); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
 
                                  <!-- Highlight Badges -->
@@ -287,8 +288,8 @@
                                          style="background: linear-gradient(to right, #ff416c, #ff4b2b); border-radius: 50px; box-shadow: 0 0 10px rgba(255,75,43,0.3); transition: 0.3s;">
                                          <i class="fas fa-bolt me-2"></i> Get Started Now
                                      </a>
-                                     <p class="mt-2 text-muted">Create your free account to explore services and
-                                         get matched with trusted professionals.</p>
+                                     <p class="mt-2 text-muted">Create your free account to explore services and get
+                                         matched with trusted professionals.</p>
                                  </div>
 
                                  <!-- Search Form -->
@@ -321,15 +322,13 @@
 
                      <!-- Banner Image (Right Side) -->
                      <div class="col-lg-5 d-flex">
-                         <div class="aos w-100 d-flex justify-content-center align-items-center" data-aos="zoom-in"
+                         <div class="aos w-100 d-flex align-items-center justify-content-center" data-aos="zoom-in"
                              data-aos-duration="1200">
-                             <img src="{{ asset('images/banner.webp') }}" class="img-fluid rounded-4 shadow"
-                                 alt="banner image" style="height: 100%; max-height: 100%; object-fit: cover;">
+                             <img src="{{ asset('images/banner.webp') }}"
+                                 class="img-fluid rounded-4 shadow h-100 w-100"
+                                 style="object-fit: cover; max-height: 100%; min-height: 100%;" alt="banner image">
                          </div>
                      </div>
-
-                     <!-- END -->
-
                  </div>
              </div>
 
@@ -340,6 +339,8 @@
                  </svg>
              </div>
          </section>
+
+
 
 
          <section class="section review py-5" style="background-color: #f8f9fa;">
@@ -399,34 +400,85 @@
          </section>
 
          <!-- Footer -->
-         <footer class="footer">
-             <!-- Footer Bottom -->
-             <div class="footer-bottom">
-                 <div class="container">
+         <footer class="footer text-white position-relative" style="background: #0f172a; overflow: hidden;">
+             <div class="container py-5">
+                 <div class="row gy-4">
 
-                     <!-- Copyright -->
-                     <div class="copyright bg-light py-3">
-                         <div class="container">
-                             <div class="row">
-                                 <div class="col-12 text-center">
-                                     <p class="mb-0 text-muted small">
-                                         &copy; <span class="fw-semibold">{{ date('Y') }}</span>
-                                         <span
-                                             class="text-primary">{{ Setting()->site_name ?? 'YourSiteName' }}</span>
-                                         &mdash;
-                                         All rights reserved.
-                                     </p>
-                                 </div>
-                             </div>
+                     <!-- Logo + About -->
+                     <div class="col-lg-4 col-md-6">
+                         <div class="d-flex align-items-center mb-3">
+                             <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" alt="Logo"
+                                 width="50" class="me-2">
+                             <h5 class="fw-bold text-white m-0">{{ Setting()->site_name ?? 'HomeServices' }}</h5>
+                         </div>
+                         <p class="small text-light">
+                             Discover and hire top-rated home service professionals. Trusted, secure & quick.
+                         </p>
+                         <div class="d-flex gap-3 mt-3">
+                             <a href="#" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
+                             <a href="#" class="text-light fs-5"><i class="fab fa-instagram"></i></a>
+                             <a href="#" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
+                             <a href="#" class="text-light fs-5"><i class="fab fa-twitter"></i></a>
                          </div>
                      </div>
 
-                     <!-- /Copyright -->
+                     <!-- Services -->
+                     <div class="col-lg-2 col-md-6">
+                         <h6 class="text-uppercase fw-bold mb-3">Services</h6>
+                         <ul class="list-unstyled small">
+                             @foreach (getAllServices()->take(4) as $service)
+                                 <li class="mb-2">
+                                     <a href="{{ route('request.index', ['service_id' => $service->id]) }}"
+                                         class="text-light text-decoration-none">
+                                         <i class="fas fa-chevron-right me-1 text-primary"></i> {{ $service->name }}
+                                     </a>
+                                 </li>
+                             @endforeach
+                         </ul>
+                     </div>
+
+                     <!-- Quick Links -->
+                     <div class="col-lg-2 col-md-6">
+                         <h6 class="text-uppercase fw-bold mb-3">Quick Links</h6>
+                         <ul class="list-unstyled small">
+                             <li class="mb-2"><a href="{{ url('/') }}"
+                                     class="text-light text-decoration-none">Home</a></li>
+                             <li class="mb-2"><a href="{{ route('login') }}"
+                                     class="text-light text-decoration-none">Login</a></li>
+                             <li class="mb-2"><a href="{{ route('register') }}"
+                                     class="text-light text-decoration-none">Register</a></li>
+                             <li class="mb-2"><a href="#" class="text-light text-decoration-none">FAQs</a>
+                             </li>
+                         </ul>
+                     </div>
+
+                     <!-- Contact Info -->
+                     <div class="col-lg-4 col-md-6">
+                         <h6 class="text-uppercase fw-bold mb-3">Contact Us</h6>
+                         <ul class="list-unstyled small text-light">
+                             <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i>123 Main
+                                 Street, Lahore, PK</li>
+                             <li class="mb-2"><i
+                                     class="fas fa-envelope me-2 text-primary"></i>support@homeservices.com</li>
+                             <li><i class="fas fa-phone-alt me-2 text-primary"></i>+92 300 1234567</li>
+                         </ul>
+                     </div>
+                 </div>
+
+                 <hr class="text-secondary my-4">
+
+                 <div class="text-center small text-light">
+                     &copy; {{ date('Y') }} <span
+                         class="text-primary fw-bold">{{ Setting()->site_name ?? 'HomeServices' }}</span> — All rights
+                     reserved.
                  </div>
              </div>
-             <!-- /Footer Bottom -->
-         </footer>
 
+             <!-- Top Border Glow -->
+             <div
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(to right, #ff6a00, #ee0979);">
+             </div>
+         </footer>
          <!-- /Footer -->
 
      </div>
