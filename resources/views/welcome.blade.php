@@ -131,6 +131,55 @@
              box-shadow: 0 0 15px rgba(255, 106, 0, 0.5);
              transform: translateY(-2px);
          }
+
+         @keyframes spin {
+             0% {
+                 transform: rotate(0deg);
+             }
+
+             100% {
+                 transform: rotate(360deg);
+             }
+         }
+
+         #global-loader {
+             z-index: 9999;
+             background-color: #ffffff;
+         }
+
+         @keyframes spin {
+             0% {
+                 transform: rotate(0deg);
+             }
+
+             100% {
+                 transform: rotate(360deg);
+             }
+         }
+
+         #global-loader {
+             z-index: 9999;
+             background-color: #ffffff;
+             transition: opacity 0.5s ease;
+         }
+
+         #global-loader.hidden {
+             opacity: 0;
+             visibility: hidden;
+             pointer-events: none;
+         }
+
+         .nav-link:hover {
+             background-color: #e0f2fe;
+             color: #0c4a6e !important;
+             transform: scale(1.05);
+         }
+
+         .active-category {
+             background-color: #3b82f6 !important;
+             color: #fff !important;
+             font-weight: bold;
+         }
      </style>
 
  </head>
@@ -138,12 +187,25 @@
  <body class="home-page bg-one">
 
      <!-- Loader -->
-     <div id="global-loader">
-         <div class="whirly-loader"> </div>
-         <div class="loader-img">
-             <img src="assets/img/load-icon.svg" class="img-fluid" alt="Img">
+     <!-- ✅ Loader HTML -->
+     <div id="global-loader"
+         class="d-flex justify-content-center align-items-center vh-100 bg-white position-fixed top-0 start-0 w-100 z-9999">
+         <div class="loader-wrapper position-relative" style="width: 120px; height: 120px;">
+
+             <!-- 🔁 Spinner Border -->
+             <div class="position-absolute top-0 start-0 w-100 h-100 rounded-circle border border-4 border-primary border-top-0 border-end-0"
+                 style="animation: spin 1s linear infinite;"></div>
+
+             <!-- 🌀 Logo Centered -->
+             <div class="rounded-circle bg-white d-flex justify-content-center align-items-center shadow"
+                 style="width: 100px; height: 100px; position: absolute; top: 10px; left: 10px;">
+                 <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" alt="Logo" class="img-fluid"
+                     style="max-height: 50px;">
+             </div>
          </div>
      </div>
+
+
      <!-- Loader -->
 
      <!-- Main Wrapper -->
@@ -151,59 +213,64 @@
 
          <!-- Start Navigation -->
          <!-- Header -->
-         <header class="header">
+         <header class="header py-2 bg-white shadow-sm">
              <div class="container">
-                 <nav class="navbar navbar-expand-lg header-nav p-0 align-items-center">
-                     <!-- Mobile menu + Logo -->
-                     <div class="navbar-header d-flex align-items-center me-3">
-                         <a id="mobile_btn" href="javascript:void(0);">
+                 <nav class="navbar navbar-expand-lg d-flex align-items-center justify-content-between p-0">
+
+                     <!-- 🔹 Left: Logo + Mobile Menu -->
+                     <div class="d-flex align-items-center">
+                         <a id="mobile_btn" href="javascript:void(0);" class="me-2 d-lg-none">
                              <span class="bar-icon">
                                  <span></span>
                                  <span></span>
                                  <span></span>
                              </span>
                          </a>
-                         <a href="{{ url('/') }}" class="navbar-brand logo ms-2">
-                             <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="60"
-                                 width="60" class="img-fluid" alt="Logo">
+                         <a href="{{ url('/') }}" class="navbar-brand">
+                             <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="50"
+                                 width="50" class="img-fluid rounded-circle" alt="Logo">
                          </a>
                      </div>
 
-                     <!-- Center Services Menu -->
-                     <div class="main-menu-wrapper flex-grow-1">
-                         <div class="d-flex justify-content-center">
-                             <ul class="nav main-nav flex-nowrap overflow-auto" style="white-space: nowrap;">
-                                 @php $services = getAllServices()->take(6); @endphp
-                                 @foreach ($services as $service)
-                                     <li class="nav-item">
-                                         <a class="nav-link px-3 text-nowrap"
-                                             href="{{ auth()->check() ? route('request.index', ['service_id' => $service->id]) : route('login') }}">
-                                             {{ $service->name }}
-                                         </a>
-                                     </li>
-                                 @endforeach
-                             </ul>
-                         </div>
+                     <!-- 🔸 Center: Scrollable Service Pills -->
+                     <div class="category-scroll d-none d-lg-flex flex-grow-1 mx-3 gap-2 overflow-auto py-2 px-2 justify-content-center"
+                         style="scroll-snap-type: x mandatory; white-space: nowrap;">
+                         @php $services = getAllServices()->take(10); @endphp
+                         @foreach ($services as $service)
+                             <a href="{{ auth()->check() ? route('request.index', ['service_id' => $service->id]) : route('login') }}"
+                                 class="px-3 py-1 rounded-pill text-nowrap small fw-semibold text-white"
+                                 style="background: linear-gradient(to right, #3b82f6, #6366f1); scroll-snap-align: center;">
+                                 {{ $service->name }}
+                             </a>
+                         @endforeach
                      </div>
 
-                     <!-- Right: Login/Register -->
-                     <ul class="nav header-navbar-rht reg-head d-flex align-items-center ms-auto">
+                     <!-- 🔸 Right: Auth Buttons -->
+                     <ul class="nav header-navbar-rht d-flex align-items-center gap-2 ms-auto">
                          <li>
-                             <a href="{{ route('register') }}" class="reg-btn">
-                                 <img src="{{ asset('assets/img/icon/users.svg') }}" class="me-1" alt="img">
+                             <a href="{{ route('register') }}"
+                                 class="btn btn-outline-primary btn-sm rounded-pill px-4 py-2 d-flex align-items-center"
+                                 style="min-width: 110px;">
+                                 <img src="{{ asset('assets/img/icon/users.svg') }}" class="me-2" width="16"
+                                     alt="icon">
                                  Register
                              </a>
                          </li>
                          <li>
-                             <a href="{{ route('login') }}" class="log-btn">
-                                 <img src="{{ asset('assets/img/icon/lock.svg') }}" class="me-1" alt="img">
+                             <a href="{{ route('login') }}"
+                                 class="btn btn-primary btn-sm rounded-pill px-4 py-2 d-flex align-items-center"
+                                 style="min-width: 110px;">
+                                 <img src="{{ asset('assets/img/icon/lock.svg') }}" class="me-2" width="16"
+                                     alt="icon">
                                  Login
                              </a>
                          </li>
                      </ul>
+
                  </nav>
              </div>
          </header>
+
 
 
          <!-- /Header -->
@@ -340,6 +407,69 @@
              </div>
          </section>
 
+         {{-- Video --}}
+
+         <div class="position-relative overflow-hidden" style="height: 100vh;">
+
+             <!-- 🔹 Background Video -->
+             <video autoplay muted loop playsinline
+                 class="w-100 h-100 object-fit-cover position-absolute top-0 start-0 z-0">
+                 <source src="{{ asset('videos/home-banner.mp4') }}" type="video/mp4">
+                 Your browser does not support the video tag.
+             </video>
+
+             <!-- 🔹 Gradient Overlay -->
+             <div class="position-absolute top-0 start-0 w-100 h-100"
+                 style="background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)); z-index: 1;"></div>
+
+             <!-- 🔹 Content -->
+             <div class="position-relative z-2 h-100 d-flex justify-content-center align-items-center">
+                 <div class="text-center px-4 py-5 rounded-4 shadow-lg"
+                     style="backdrop-filter: blur(8px); background: rgba(255, 255, 255, 0.05); max-width: 700px;">
+
+                     <h1 class="display-4 fw-bold text-white mb-3">Welcome to Our Platform</h1>
+                     <p class="lead text-white-50 mb-4">
+                         Connecting homeowners with skilled, verified service professionals.
+                     </p>
+                     <a href="{{ route('register') }}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                         Get Started
+                     </a>
+
+                 </div>
+             </div>
+
+         </div>
+         {{-- End Video --}}
+         {{-- Banner Section --}}
+         <section class="py-5 bg-white">
+             <div class="container">
+                 <div class="row align-items-center justify-content-between g-5">
+
+                     <!-- 🔹 Text Side -->
+                     <div class="col-md-6">
+                         <h2 class="fw-bold mb-3 text-primary display-6">
+                             Trusted Home Services, Just One Click Away
+                         </h2>
+                         <p class="text-muted lead mb-4">
+                             From AC repair to beauty services, get top-rated professionals at your doorstep.
+                         </p>
+                         {{-- <a href="{{ route('services') }}" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm">
+                             Explore Now
+                         </a> --}}
+                     </div>
+
+                     <!-- 🔹 Image Side -->
+                     <div class="col-md-6 text-center">
+                         <img src="{{ asset('bannner/baner Image.png') }}" class="img-fluid rounded-4 shadow"
+                             alt="Banner Image">
+                     </div>
+
+                 </div>
+             </div>
+         </section>
+
+
+         {{-- End Banneer Section --}}
 
 
 
@@ -415,7 +545,8 @@
                              Discover and hire top-rated home service professionals. Trusted, secure & quick.
                          </p>
                          <div class="d-flex gap-3 mt-3">
-                             <a href="#" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
+                             <a href="https://www.facebook.com/profile.php?id=61577758240283"
+                                 class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
                              <a href="#" class="text-light fs-5"><i class="fab fa-instagram"></i></a>
                              <a href="#" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
                              <a href="#" class="text-light fs-5"><i class="fab fa-twitter"></i></a>
@@ -536,7 +667,14 @@
      <script>
          AOS.init();
      </script>
-
+     <script>
+         window.addEventListener('load', () => {
+             const loader = document.getElementById('global-loader');
+             if (loader) {
+                 loader.classList.add('hidden'); // fades out and disables pointer events
+             }
+         });
+     </script>
  </body>
 
  </html>
