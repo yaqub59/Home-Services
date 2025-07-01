@@ -170,7 +170,7 @@
                          <div class="service-nav-wrapper mb-3">
                              <ul class="nav main-nav flex-nowrap overflow-auto" style="white-space: nowrap;">
                                  @php
-                                     $services = getAllServices()->take(7);
+                                     $services = getAllServices()->take(6);
                                  @endphp
                                  @foreach ($services as $service)
                                      <li class="nav-item">
