@@ -391,7 +391,7 @@
                      <div class="col-lg-5 d-flex">
                          <div class="aos w-100 d-flex align-items-center justify-content-center" data-aos="zoom-in"
                              data-aos-duration="1200">
-                             <img src="{{ asset('images/banner.webp') }}"
+                             <img src="{{ asset('bannner/baner Image.png') }}"
                                  class="img-fluid rounded-4 shadow h-100 w-100"
                                  style="object-fit: cover; max-height: 100%; min-height: 100%;" alt="banner image">
                          </div>
