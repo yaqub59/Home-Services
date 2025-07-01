@@ -167,20 +167,21 @@
                                      width="70" class="img-fluid" alt="Logo">
                              </a>
                          </div>
-                         <ul class="nav main-nav">
-                             @php
-                                 $services = getAllServices();
-                             @endphp
-
-                             @foreach ($services as $service)
-                                 <li class="nav-item">
-                                     <a class="nav-link"
-                                         href="{{ auth()->check() ? route('request.index', ['service_id' => $service->id]) : route('login') }}">
-                                         {{ $service->name }}
-                                     </a>
-                                 </li>
-                             @endforeach
-                         </ul>
+                         <div class="service-nav-wrapper mb-3">
+                             <ul class="nav main-nav flex-nowrap overflow-auto" style="white-space: nowrap;">
+                                 @php
+                                     $services = getAllServices()->take(7);
+                                 @endphp
+                                 @foreach ($services as $service)
+                                     <li class="nav-item">
+                                         <a class="nav-link px-3 text-nowrap"
+                                             href="{{ auth()->check() ? route('request.index', ['service_id' => $service->id]) : route('login') }}">
+                                             {{ $service->name }}
+                                         </a>
+                                     </li>
+                                 @endforeach
+                             </ul>
+                         </div>
                      </div>
 
                      {{-- Right Side (Login/Register) --}}
@@ -208,119 +209,127 @@
          <section class="section home-banner row-middle py-5 position-relative"
              style="background: linear-gradient(to right, #f8f9fa, #ffffff); overflow: hidden;">
              <div class="container">
-                 <div class="row align-items-center g-4">
+                 <div class="row align-items-center g-4 mt-4">
                      <!-- Banner Text -->
+                     <!-- START: Equal Height Section -->
+                     <!-- Banner Text (Left Side) -->
                      <div class="col-lg-7">
-                         <div class="banner-content aos" data-aos="fade-up" data-aos-duration="1200"
-                             style="backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.65); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                         <div class="h-100 d-flex align-items-center">
+                             <div class="banner-content aos w-100" data-aos="fade-up" data-aos-duration="1200"
+                                 style="backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.65); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
 
-                             <!-- Highlight Badges -->
-                             <div class="mb-4">
-                                 <div class="row g-3">
-                                     @php
-                                         $highlights = [
-                                             [
-                                                 'icon' => 'fas fa-tools',
-                                                 'color' => 'primary',
-                                                 'title' => 'Expert Technicians',
-                                                 'desc' => '1000+ verified professionals',
-                                             ],
-                                             [
-                                                 'icon' => 'fas fa-clock',
-                                                 'color' => 'success',
-                                                 'title' => 'Fast Response',
-                                                 'desc' => 'Within 30 minutes',
-                                             ],
-                                             [
-                                                 'icon' => 'fas fa-shield-alt',
-                                                 'color' => 'danger',
-                                                 'title' => 'Secure & Reliable',
-                                                 'desc' => 'Safe payment and quality check',
-                                             ],
-                                         ];
-                                     @endphp
-                                     @foreach ($highlights as $index => $item)
-                                         <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ 100 * $index }}">
-                                             <div
-                                                 class="p-3 bg-white rounded-4 shadow-sm h-100 d-flex align-items-start gap-3 hover-effect position-relative">
-                                                 <i class="{{ $item['icon'] }} fa-2x text-{{ $item['color'] }}"></i>
-                                                 <div>
-                                                     <h5 class="fw-bold mb-1">{{ $item['title'] }}</h5>
-                                                     <small class="text-muted">{{ $item['desc'] }}</small>
+                                 <!-- Highlight Badges -->
+                                 <div class="mb-4">
+                                     <div class="row g-3">
+                                         @php
+                                             $highlights = [
+                                                 [
+                                                     'icon' => 'fas fa-tools',
+                                                     'color' => 'primary',
+                                                     'title' => 'Expert Technicians',
+                                                     'desc' => '1000+ verified professionals',
+                                                 ],
+                                                 [
+                                                     'icon' => 'fas fa-clock',
+                                                     'color' => 'success',
+                                                     'title' => 'Fast Response',
+                                                     'desc' => 'Within 30 minutes',
+                                                 ],
+                                                 [
+                                                     'icon' => 'fas fa-shield-alt',
+                                                     'color' => 'danger',
+                                                     'title' => 'Secure & Reliable',
+                                                     'desc' => 'Safe payment and quality check',
+                                                 ],
+                                             ];
+                                         @endphp
+                                         @foreach ($highlights as $index => $item)
+                                             <div class="col-md-4" data-aos="fade-up"
+                                                 data-aos-delay="{{ 100 * $index }}">
+                                                 <div
+                                                     class="p-3 bg-white rounded-4 shadow-sm h-100 d-flex align-items-start gap-3 hover-effect position-relative">
+                                                     <i
+                                                         class="{{ $item['icon'] }} fa-2x text-{{ $item['color'] }}"></i>
+                                                     <div>
+                                                         <h5 class="fw-bold mb-1">{{ $item['title'] }}</h5>
+                                                         <small class="text-muted">{{ $item['desc'] }}</small>
+                                                     </div>
                                                  </div>
                                              </div>
+                                         @endforeach
+                                     </div>
+                                 </div>
+
+                                 <!-- Counters -->
+                                 <div class="row text-center mt-4">
+                                     <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
+                                         <h3 class="fw-bold mb-0 text-primary">2M+</h3>
+                                         <small class="text-muted">Happy Customers</small>
+                                     </div>
+                                     <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
+                                         <h3 class="fw-bold mb-0 text-success">1.2k</h3>
+                                         <small class="text-muted">Experts Online</small>
+                                     </div>
+                                     <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
+                                         <h3 class="fw-bold mb-0 text-warning">99%</h3>
+                                         <small class="text-muted">Positive Feedback</small>
+                                     </div>
+                                     <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="400">
+                                         <h3 class="fw-bold mb-0 text-danger">24/7</h3>
+                                         <small class="text-muted">Support</small>
+                                     </div>
+                                 </div>
+
+                                 <!-- Call to Action -->
+                                 <div class="text-center mt-5" data-aos="zoom-in">
+                                     <a href="{{ route('register') }}"
+                                         class="btn btn-lg px-5 py-3 text-white fw-semibold"
+                                         style="background: linear-gradient(to right, #ff416c, #ff4b2b); border-radius: 50px; box-shadow: 0 0 10px rgba(255,75,43,0.3); transition: 0.3s;">
+                                         <i class="fas fa-bolt me-2"></i> Get Started Now
+                                     </a>
+                                     <p class="mt-2 text-muted">Create your free account to explore services and
+                                         get matched with trusted professionals.</p>
+                                 </div>
+
+                                 <!-- Search Form -->
+                                 @php $services = getAllServices(); @endphp
+                                 <form class="form mt-4" id="searchForm" onsubmit="return handleCategorySearch();"
+                                     data-aos="fade-up" data-aos-delay="500">
+                                     <div class="row g-2 align-items-center">
+                                         <div class="col-md-8">
+                                             <select class="form-select form-control border-primary"
+                                                 id="categorySelect">
+                                                 <option value="">🔍 Select Category</option>
+                                                 @foreach ($services as $service)
+                                                     <option value="{{ $service->id }}">{{ $service->name }}
+                                                     </option>
+                                                 @endforeach
+                                             </select>
                                          </div>
-                                     @endforeach
-                                 </div>
-                             </div>
-
-                             <!-- Counters -->
-                             <div class="row text-center mt-4">
-                                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="100">
-                                     <h3 class="fw-bold mb-0 text-primary">2M+</h3>
-                                     <small class="text-muted">Happy Customers</small>
-                                 </div>
-                                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="200">
-                                     <h3 class="fw-bold mb-0 text-success">1.2k</h3>
-                                     <small class="text-muted">Experts Online</small>
-                                 </div>
-                                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="300">
-                                     <h3 class="fw-bold mb-0 text-warning">99%</h3>
-                                     <small class="text-muted">Positive Feedback</small>
-                                 </div>
-                                 <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="400">
-                                     <h3 class="fw-bold mb-0 text-danger">24/7</h3>
-                                     <small class="text-muted">Support</small>
-                                 </div>
-                             </div>
-
-                             <!-- Call to Action -->
-                             <div class="text-center mt-5" data-aos="zoom-in">
-                                 <a href="{{ route('register') }}"
-                                     class="btn btn-lg px-5 py-3 text-white fw-semibold"
-                                     style="background: linear-gradient(to right, #ff416c, #ff4b2b); border-radius: 50px; box-shadow: 0 0 10px rgba(255,75,43,0.3); transition: 0.3s;">
-                                     <i class="fas fa-bolt me-2"></i> Get Started Now
-                                 </a>
-                                 <p class="mt-2 text-muted">
-                                     Create your free account to explore services and get matched with trusted
-                                     professionals.
-                                 </p>
-                             </div>
-
-                             <!-- Search Form -->
-                             @php
-                                 $services = getAllServices();
-                             @endphp
-
-                             <form class="form mt-4" id="searchForm" onsubmit="return handleCategorySearch();"
-                                 data-aos="fade-up" data-aos-delay="500">
-                                 <div class="row g-2 align-items-center">
-                                     <div class="col-md-8">
-                                         <select class="form-select form-control border-primary" id="categorySelect">
-                                             <option value="">🔍 Select Category</option>
-                                             @foreach ($services as $service)
-                                                 <option value="{{ $service->id }}">{{ $service->name }}</option>
-                                             @endforeach
-                                         </select>
+                                         <div class="col-md-4">
+                                             <button class="btn w-100 text-white" type="submit"
+                                                 style="background: linear-gradient(135deg, #ff6a00, #ee0979); border: none;">
+                                                 <i class="fas fa-search me-1"></i> Search
+                                             </button>
+                                         </div>
                                      </div>
-                                     <div class="col-md-4">
-                                         <button class="btn w-100 text-white" type="submit"
-                                             style="background: linear-gradient(135deg, #ff6a00, #ee0979); border: none;">
-                                             <i class="fas fa-search me-1"></i> Search
-                                         </button>
-                                     </div>
-                                 </div>
-                             </form>
+                                 </form>
+
+                             </div>
                          </div>
                      </div>
 
-                     <!-- Banner Image -->
-                     <div class="col-lg-5">
-                         <div class="banner-img aos text-center" data-aos="zoom-in" data-aos-duration="1200">
+                     <!-- Banner Image (Right Side) -->
+                     <div class="col-lg-5 d-flex">
+                         <div class="aos w-100 d-flex justify-content-center align-items-center" data-aos="zoom-in"
+                             data-aos-duration="1200">
                              <img src="{{ asset('images/banner.webp') }}" class="img-fluid rounded-4 shadow"
-                                 alt="banner image" style="max-height: 420px; object-fit: cover;">
+                                 alt="banner image" style="height: 100%; max-height: 100%; object-fit: cover;">
                          </div>
                      </div>
+
+                     <!-- END -->
+
                  </div>
              </div>
 
