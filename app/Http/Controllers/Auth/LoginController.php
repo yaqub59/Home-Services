@@ -66,7 +66,7 @@ class LoginController extends Controller
             } else if (auth()->user()->type == 'service') {
                 return redirect()->route('service.home')->with('success', 'Successfully logged in to the Service Provider Dashboard.');;
             } else {
-                return redirect()->route('home');
+                return redirect()->route('request.index');
             }
         } else {
             return redirect()->route('login')
