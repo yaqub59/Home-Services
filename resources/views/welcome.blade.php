@@ -235,7 +235,7 @@
                      </div>
                      <div class="category-scroll d-none d-lg-flex flex-grow-1 mx-3 gap-2 overflow-auto py-2 px-2 justify-content-center"
                          style="scroll-snap-type: x mandatory; white-space: nowrap; scrollbar-width: thin; background: transparent;">
-                         @php $services = getAllServices()->take(10); @endphp
+                         @php $services = getAllServices()->take(6); @endphp
                          @foreach ($services as $service)
                              <a href="{{ auth()->check() ? route('request.index', ['service_id' => $service->id]) : route('login') }}"
                                  class="text-decoration-none text-dark fw-medium d-inline-flex align-items-center rounded-pill px-2 py-1 me-1"
