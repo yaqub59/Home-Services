@@ -474,6 +474,27 @@
              </div>
          </section>
 
+         {{-- 🌟 Elegant Mission Divider Between Banner Sections --}}
+         <section class="py-5 position-relative"
+             style="background: linear-gradient(to right, #e0e7ff, #f3f4f6); overflow: hidden;">
+             <div class="container text-center">
+                 <div class="mx-auto px-4 py-5 bg-white rounded-5 shadow-lg border-start border-5 border-primary"
+                     style="max-width: 850px;">
+                     <h2 class="fw-bold mb-3 text-primary">Why Choose Us?</h2>
+                     <p class="lead text-muted mb-0">
+                         We go beyond fixing things — we deliver peace of mind, professional care, and reliable service
+                         across every doorstep.
+                     </p>
+                 </div>
+             </div>
+
+             <!-- Optional Top Decorative SVG Wave -->
+             <div style="position: absolute; top: -1px; left: 0; width: 100%; line-height: 0;">
+                 <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style="height: 40px; width: 100%;">
+                     <path d="M0,30 C300,0 900,60 1200,20 L1200,0 L0,0 Z" style="stroke: none; fill: #e0e7ff;"></path>
+                 </svg>
+             </div>
+         </section>
 
          {{-- Banner Section --}}
          <section class="py-5 bg-white">
