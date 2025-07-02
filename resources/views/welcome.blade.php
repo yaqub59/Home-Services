@@ -543,11 +543,13 @@
 
                      <!-- Logo + About -->
                      <div class="col-lg-4 col-md-6">
-                         <div class="d-flex align-items-center mb-3">
-                             <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" alt="Logo"
-                                 width="50" class="me-2">
-                             <h5 class="fw-bold text-white m-0">{{ Setting()->site_name ?? 'HomeServices' }}</h5>
-                         </div>
+                         <a href="javascript:void(0);" class="navbar-brand logo d-flex align-items-center">
+                             <div class="p-2 rounded-circle shadow-sm"
+                                 style="background-color: #f1f5f9; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center;">
+                                 <img src="{{ asset('images/settings/' . Setting()->site_logo) }}" height="60"
+                                     width="60" class="img-fluid rounded-circle" alt="Logo">
+                             </div>
+                         </a>
                          <p class="small text-light">
                              Discover and hire top-rated home service professionals. Trusted, secure & quick.
                          </p>
