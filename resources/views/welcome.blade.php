@@ -278,7 +278,7 @@
          </header>
          {{-- Video --}}
 
-         <div class="position-relative overflow-hidden" style="height: 100vh;">
+         <section class="position-relative overflow-hidden" style="height: 100vh;">
 
              <!-- 🔹 Background Video -->
              <video autoplay muted loop playsinline
@@ -307,12 +307,40 @@
                  </div>
              </div>
 
-         </div>
+         </section>
          {{-- End Video --}}
 
 
+         {{-- 🌈 Elegant Between-Section Divider --}}
+         <section class="py-5 position-relative" style="background: #f1f5f9;">
+             <div class="container text-center">
+                 <div class="mx-auto px-4 py-5 bg-white rounded-5 shadow border"
+                     style="max-width: 800px; border-left: 6px solid #6366f1;">
+                     <div class="mb-3">
+                         <img src="{{ asset('images/flats-home.jpg') }}" alt="Icon" width="60"
+                             height="60">
+                     </div>
+                     <h2 class="fw-bold text-dark mb-3">Making Homes Better, One Service at a Time</h2>
+                     <p class="text-muted lead mb-0">We don't just fix problems — we build trust, comfort, and
+                         convenience right at your doorstep.</p>
+                 </div>
+             </div>
 
-         <!-- /Header -->
+             <!-- Decorative Wave Up -->
+             <div style="position: absolute; top: -1px; left: 0; width: 100%; line-height: 0;">
+                 <svg viewBox="0 0 500 50" preserveAspectRatio="none" style="height: 40px; width: 100%;">
+                     <path d="M0,30 C150,0 350,60 500,20 L500,00 L0,0 Z" style="stroke: none; fill: #f1f5f9;"></path>
+                 </svg>
+             </div>
+
+             <!-- Decorative Wave Down -->
+             <div style="position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0;">
+                 <svg viewBox="0 0 500 50" preserveAspectRatio="none" style="height: 40px; width: 100%;">
+                     <path d="M0,20 C150,60 350,0 500,30 L500,00 L0,0 Z" style="stroke: none; fill: #ffffff;"></path>
+                 </svg>
+             </div>
+         </section>
+
 
          <section class="section home-banner row-middle py-5 position-relative"
              style="background: linear-gradient(to right, #f8f9fa, #ffffff); overflow: hidden;">
